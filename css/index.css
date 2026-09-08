@@ -142,6 +142,15 @@ header > .collapsible-header{
     border: 1px solid var(--input-hover-bd-color) !important;
 }
 
+.whatsapp-button {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 30;
+    width: 60px;
+    height: 60px;
+}
+
 .carousel-container {
     overflow: hidden;
     white-space: nowrap;
