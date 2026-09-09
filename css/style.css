@@ -482,6 +482,9 @@ img { max-width: 100%; display: block; }
   }
   .price-card { flex: 0 0 78vw; min-width: 0; max-width: 320px; scroll-snap-align: start; }
 
+  .testimonials-track { justify-content: flex-start; }
+  .testimonial-card { width: 85vw; max-width: 320px; scroll-snap-align: start; }
+
   .site-footer { padding: 32px 24px; flex-direction: column; gap: 24px; }
 }
 
@@ -489,6 +492,7 @@ img { max-width: 100%; display: block; }
   .hero-title { font-size: 30px; }
   .hero-actions { flex-direction: column; }
   .carousel-track { grid-auto-columns: 46vw; }
+  .testimonial-card { width: 85vw; max-width: 100%; }
 }
 
 /* ---------- Cookie banner ---------- */
