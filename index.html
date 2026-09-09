@@ -1,517 +1,250 @@
 <!doctype html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>plexiweb</title>
-        <meta name="description" content="" />
-        <link
-            rel="shortcut icon"
-            href="./assets/logo/logo.png"
-            type="image/x-icon"
-        />
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plexiweb | Webs que generan crecimiento</title>
+  <meta name="description" content="Landing pages con una estrategia clara: atraer, generar confianza y convertir. Diseño, desarrollo y SEO en Córdoba, Argentina." />
 
-        <!-- Open Graph / Facebook -->
-        <meta property="og:title" content="Title of the project" />
-        <meta property="og:description" content="" />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://github.com/PaulleDemon" />
-        <!--Replace with the current website url-->
-        <meta property="og:image" content="" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" />
 
-        <!-- <link rel="stylesheet" href="../../tailwind-css/tailwind-runtime.css" /> -->
-        <link rel="stylesheet" href="./css/tailwind-build.css">
-        <link rel="stylesheet" href="css/index.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
 
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css"
-            integrity="sha512-dPXYcDub/aeb08c63jRq/k6GaKccl256JQy/AnOq7CAnEZ9FzSL9wSbcZkMp4R26vBsMLFYH4kQ67/bbV8XaCQ=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer"
-        />
-    </head>
-    <body
-        class="tw-flex tw-min-h-[100vh] tw-flex-col tw-bg-black tw-text-white"
-    >
-        <!-- header -->
-    
-    <header
-            class="tw-max-w-lg:tw-px-4 tw-max-w-lg:tw-mr-auto tw-absolute tw-top-0 tw-z-20 tw-flex tw-h-[60px] tw-w-full tw-bg-opacity-0 tw-px-[5%] lg:tw-justify-around"
-        >
-            <a class="tw-h-[50px] tw-w-[50px] tw-p-[4px]" href="">
-                <span class="font-headline-xl text-headline-xl font-bold text-white dark:text-surface-white">Plexiweb</span>
-                
-            </a>
-            <div
-                class="collapsible-header animated-collapse max-lg:tw-shadow-md"
-                id="collapsed-header-items"
-            >
-                <div
-                    class="tw-flex tw-h-full tw-w-max tw-gap-5 tw-text-base max-lg:tw-mt-[30px] max-lg:tw-flex-col max-lg:tw-place-items-end max-lg:tw-gap-5 lg:tw-mx-auto lg:tw-place-items-center"
-                >
-                    <a class="header-links" href="">  </a>
-                    <a class="header-links" href="#pricing"> Precios </a>
-                    <a class="header-links" href=""> Landing page </a>
-                    <a class="header-links" href=""> Desarrollo </a>
-                    
-                </div>
-                <div
-                    class="tw-mx-4 tw-flex tw-place-items-center tw-gap-[20px] tw-text-base max-md:tw-w-full max-md:tw-flex-col max-md:tw-place-content-center"
-                >
-                    <a
-                        href="https://wa.me/5493517732496"
-                        aria-label="signup"
-                        class="tw-rounded-full tw-bg-white tw-px-3 tw-py-2 tw-text-black tw-transition-transform tw-duration-[0.3s] hover:tw-translate-x-2"
-                    >
-                        <span>Agendar reunion</span>
-                        <i class="bi bi-arrow-right"></i>
-                    </a>
-                </div>
+  <header class="site-header">
+    <a href="#top" class="logo">Plexiweb</a>
+
+    <nav class="main-nav" id="main-nav">
+      <a href="#pricing">Precios</a>
+      <a href="#portfolio">Landing page</a>
+      <a href="#proceso">Desarrollo</a>
+    </nav>
+
+    <a href="#contacto" class="btn btn-primary btn-header">Agendar reunión</a>
+
+    <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="main-nav">
+      <i class="bi bi-list"></i>
+    </button>
+  </header>
+
+  <main id="top">
+
+    <section class="hero">
+      <h1 class="hero-title">Webs que generan crecimiento</h1>
+      <p class="hero-subtitle">Landing pages con una estrategia muy clara.</p>
+
+      <ol class="hero-steps">
+        <li>1. Que al cliente le atraiga tu producto</li>
+        <li>2. Generar confianza</li>
+        <li><strong>3. Y se contacte con vos</strong></li>
+      </ol>
+
+      <p class="hero-question">¿En la era de la inteligencia artificial vas a subir al tren o vas a quedarte mirando cómo pasa?</p>
+
+      <div class="hero-actions">
+        <a href="#contacto" class="btn btn-primary">Contactanos</a>
+        <a href="#pricing" class="btn btn-secondary"><i class="bi bi-play-circle-fill"></i>Ver precios</a>
+      </div>
+    </section>
+
+    <section class="portfolio" id="portfolio">
+      <h2 class="section-title">Nuestro Portfolio</h2>
+
+      <div class="carousel-wrap">
+        <button class="carousel-arrow carousel-arrow-left" id="carousel-prev" aria-label="Anterior">
+          <i class="bi bi-chevron-left"></i>
+        </button>
+        <button class="carousel-arrow carousel-arrow-right" id="carousel-next" aria-label="Siguiente">
+          <i class="bi bi-chevron-right"></i>
+        </button>
+
+        <!-- Para sumar un proyecto nuevo: agregá otra <a class="portfolio-card"> igual a las de abajo,
+             en cualquier posición antes de la tarjeta "Próximo proyecto". El carrusel (flechas + dots)
+             se recalcula solo, no hace falta tocar el CSS ni el JS. -->
+        <div class="carousel-track no-scrollbar" id="portfolio-track">
+          <a href="#" class="portfolio-card">
+            <img src="assets/home/elec.png" alt="Electrotest">
+            <div class="portfolio-name">Electrotest</div>
+            <div class="portfolio-desc">Mantenimiento eléctrico alta tensión</div>
+          </a>
+          <a href="#" class="portfolio-card">
+            <img src="assets/home/miy.png" alt="M I Y E N dj">
+            <div class="portfolio-name">M I Y E N dj</div>
+            <div class="portfolio-desc">Entretenimiento y shows</div>
+          </a>
+          <a href="#" class="portfolio-card">
+            <img src="assets/home/ilha.png" alt="Plexi Gestión">
+            <div class="portfolio-name">Plexi Gestión</div>
+            <div class="portfolio-desc">Asesoramiento de administración</div>
+          </a>
+          <a href="#" class="portfolio-card">
+            <img src="assets/home/ilha.png" alt="Ilha Grande">
+            <div class="portfolio-name">Ilha Grande</div>
+            <div class="portfolio-desc">Ecoturismo aventura</div>
+          </a>
+          <a href="#" class="portfolio-card">
+            <img src="assets/home/dato.png" alt="Datovivo">
+            <div class="portfolio-name">Datovivo</div>
+            <div class="portfolio-desc">Blog de análisis estadísticos</div>
+          </a>
+          <a href="#" class="portfolio-card portfolio-next">
+            <i class="bi bi-plus-lg"></i>
+            <span>Próximo proyecto</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="carousel-dots" id="portfolio-dots"></div>
+    </section>
+
+    <section class="proceso" id="proceso">
+      <div class="proceso-inner">
+        <h2 class="section-title section-title-left">Tu web en 3 simples pasos.</h2>
+        <ol class="proceso-steps">
+          <li>1. Estudiamos tu negocio y generamos un primer boceto</li>
+          <li>2. Corregimos detalles y dejamos un producto final</li>
+          <li>3. Hacemos seguimiento de tu web</li>
+        </ol>
+
+        <div class="proceso-extra">
+          <div class="proceso-extra-title"><i class="bi bi-check-all"></i>Otros productos.</div>
+          <p>Potenciamos tus ventas con analítica de datos y desarrollo SEO. Hacemos inteligencia de negocio para que la web sea tu herramienta principal de ventas.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="pricing" id="pricing">
+      <h2 class="section-title">Costo de nuestro servicio</h2>
+
+      <div class="pricing-grid no-scrollbar">
+        <div class="price-card">
+          <div class="price-card-body">
+            <p class="price-strike price-strike-hidden">$300usd</p>
+            <div class="price-amount">$50.000<span>/mes</span></div>
+            <p class="price-desc">SEO y analítica de datos mensual.</p>
+          </div>
+          <a href="#contacto" class="btn btn-primary btn-block">Quiero optimización SEO</a>
+        </div>
+
+        <div class="price-card price-card-featured">
+          <div class="price-card-body">
+            <p class="price-strike">$300usd</p>
+            <div class="price-amount">$100.000</div>
+            <p class="price-desc">Pago único por landing page. Incluye dominio y hosting.</p>
+          </div>
+          <a href="#contacto" class="btn btn-primary btn-block">Quiero mi Landing Page</a>
+        </div>
+
+        <div class="price-card">
+          <div class="price-card-body">
+            <p class="price-strike price-strike-hidden">$300usd</p>
+            <div class="price-amount price-amount-text">A medida</div>
+            <p class="price-desc">Rediseño y software a medida.</p>
+          </div>
+          <a href="#contacto" class="btn btn-primary btn-block">Coordinar una reunión</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="testimonials">
+      <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+
+      <div class="testimonials-track no-scrollbar">
+        <div class="testimonial-card">
+          <div class="stars">
+            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+          </div>
+          <p class="testimonial-quote">"Excelente trabajo, entendieron a la perfección la imagen que queremos transmitir a los clientes. Gracias a la nueva web logramos transmitir la seriedad y seguridad que estamos buscando."</p>
+          <div class="testimonial-author">
+            <div class="avatar"></div>
+            <div>
+              <div class="author-name">Zarzuelo Guillermo</div>
+              <div class="author-role">Electrotest</div>
             </div>
-            <button
-                class="bi bi-list tw-absolute tw-right-3 tw-top-3 tw-z-50 tw-text-3xl tw-text-white lg:tw-hidden"
-                onclick="toggleHeader()"
-                aria-label="menu"
-                id="collapse-btn"
-            ></button>
-        </header>
-<!-- banner -->
-        <section
-            class="hero-section tw-relative tw-flex tw-min-h-[100vh] tw-w-full tw-max-w-[100vw] tw-flex-col tw-overflow-hidden max-md:tw-mt-[50px]"
-            id="hero-section"
-        >
-            <div
-                class="tw-flex tw-h-full tw-min-h-[100vh] tw-w-full tw-flex-col tw-place-content-center tw-gap-6 tw-p-[5%] max-xl:tw-place-items-center max-lg:tw-p-4"
-            >
-                <div
-                    class="tw-flex tw-flex-col tw-place-content-center tw-items-center"
-                >
-                    <div
-                        class="reveal-up gradient-text tw-text-center tw-text-6xl tw-font-semibold tw-uppercase tw-leading-[40px] max-lg:tw-text-4xl max-md:tw-leading-snug"
-                    >
-                        <span class=""> </span>
-                        <br />
-                        <span class=""> Webs que generan crecimiento </span>
-                    </div>
-                    <p class="tw-mt-8 tw-max-w-2xl tw-text-xl tw-font-normal tw-text-gray-300 md:tw-text-2xl tw-leading-relaxed">
-        Landing pages con una estrategia muy clara.
-    </p>
-    <ol class="tw-mt-4 tw-space-y-2 tw-text-lg tw-font-semibold tw-text-gray-400 md:tw-text-xl">
-    <li>1. Que al cliente le atraiga tu producto</li>
-    <li>2. Generar confianza</li>
-    <li><strong class="tw-text-white tw-font-bold">3. Y se contacte con vos</strong></li>
-</ol>
-    <p class="tw-mt-4 tw-text-lg tw-font-semibold tw-text-gray-400 md:tw-text-xl">
-        ¿En la era de la inteligencia artificial vas a subir al tren o vas a quedarte mirando cómo pasa?
-    </p>
+          </div>
+        </div>
 
-    
-</div>
-                    <div
-                        class="reveal-up tw-mt-10 tw-flex tw-place-items-center tw-gap-4"
-                    >
-                        <a
-                            class="btn tw-bg-[#7e22ce85] tw-shadow-lg tw-shadow-primary tw-transition-transform tw-duration-[0.3s] hover:tw-scale-x-[1.03]"
-                            href="https://wa.me/5493517732496?text=Hola,%20me%20gustaría%20consultar%20sobre%20sus%20servicios"
-                        >
-                            Contactanos
-                        </a>
-                        <a
-                            class="btn tw-flex tw-gap-2 !tw-bg-black !tw-text-white tw-transition-colors tw-duration-[0.3s] hover:!tw-bg-white hover:!tw-text-black"
-                            href=""
-                        >
-                            <i class="bi bi-play-circle-fill"></i>
-                            <span>Ver precios</span>
-                        </a>
-                    </div>
-                </div>
-
-                
+        <div class="testimonial-card">
+          <div class="stars">
+            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+          </div>
+          <p class="testimonial-quote">"Increíble, antes usaba beacons.ai pero tenia muchos limitantes y un formato prearmado, nunca tuve la libertad de elegir y mostrar mis shows como con mi propia pagina. Tener tu propia web y poder medir la metricas sirve para conectar mucho mejor con mis clientes."</p>
+          <div class="testimonial-author">
+            <div class="avatar"></div>
+            <div>
+              <div class="author-name">Miyen Chiodi</div>
+              <div class="author-role">Miyen dj</div>
             </div>
-        </section>
-<!-- header -->
-        
+          </div>
+        </div>
 
-
-
-        <section
-            class="tw-mt-5 tw-flex tw-min-h-[80vh] tw-w-full tw-flex-col tw-place-content-center tw-place-items-center tw-p-[2%] max-lg:tw-p-3"
-        >
-            <h3
-                class="reveal-up tw-text-center tw-text-4xl tw-font-medium max-md:tw-text-2xl"
-            >
-                Nuestro Portfolio
-            </h3>
-            <!-- articles -->
-            <div
-                class="reveal-up tw-mt-10 tw-flex tw-flex-wrap tw-place-content-center tw-gap-10 max-lg:tw-flex-col">
-                <a
-                    href="https://electrotest.com.ar"
-                    class="tw-flex tw-h-[420px] tw-w-[400px] tw-flex-col tw-gap-2 tw-overflow-clip tw-rounded-lg tw-p-4 max-lg:tw-w-[300px]">
-                    
-                    <!-- Contenedor de Imagen  -->
-                    <div class="tw-h-[500px] tw-w-full tw-overflow-hidden tw-rounded-md">
-                        <img
-                            src="./assets/images/home/elec.png"
-                            alt="article image"
-                            class="tw-h-full tw-w-full tw-object-cover tw-transition-transform tw-duration-[0.3s] hover:tw-scale-[1.04]"
-                            srcset=""
-                        />
-                    </div>
-                    
-                    <!-- Bloque de Texto  -->
-                    <h3 class="tw-mt-1 tw-text-xl tw-font-semibold max-md:tw-text-lg tw-text-white">
-                        Electrotest
-                    </h3>
-                    <p class="tw-text-sm tw-text-gray-400 tw-line-clamp-2">
-                        Servicio de mantenimiento eléctrico alta tensión
-                    </p>
-                    <span class="tw-text-xs tw-font-medium tw-text-primary tw-flex tw-items-center tw-gap-1">
-                        <span>Ver enlace</span>
-                        <i class="bi bi-arrow-right"></i>
-                    </span>
-                </a>
-<!-- Contenedor 1  -->
-                <a
-                    href="https://uziel44.github.io/miyendj/"
-                    class="tw-flex tw-h-[420px] tw-w-[400px] tw-flex-col tw-gap-2 tw-overflow-clip tw-rounded-lg tw-p-4 max-lg:tw-w-[300px]">
-                    
-                    <!-- Contenedor de Imagen  -->
-                    <div class="tw-h-[500px] tw-w-full tw-overflow-hidden tw-rounded-md">
-                        <img
-                            src="./assets/images/home/miy.png"
-                            alt="article image"
-                            class="tw-h-full tw-w-full tw-object-cover tw-transition-transform tw-duration-[0.3s] hover:tw-scale-[1.04]"
-                            srcset=""
-                        />
-                    </div>
-                    
-                    <!-- Bloque de Texto  -->
-                    <h3 class="tw-mt-1 tw-text-xl tw-font-semibold max-md:tw-text-lg tw-text-white">
-                        M I Y E N dj
-                    </h3>
-                    <p class="tw-text-sm tw-text-gray-400 tw-line-clamp-2">
-                        Servicio de entretenimiento y shows.
-                    </p>
-                    <span class="tw-text-xs tw-font-medium tw-text-primary tw-flex tw-items-center tw-gap-1">
-                        <span>Ver enlace</span>
-                        <i class="bi bi-arrow-right"></i>
-                    </span>
-                </a>
-<!-- Contenedor 1  -->
-                <a
-                    href="https://uziel44.github.io/plexigestion/"
-                    class="tw-flex tw-h-[420px] tw-w-[400px] tw-flex-col tw-gap-2 tw-overflow-clip tw-rounded-lg tw-p-4 max-lg:tw-w-[300px]">
-                    
-                    <!-- Contenedor de Imagen  -->
-                    <div class="tw-h-[500px] tw-w-full tw-overflow-hidden tw-rounded-md">
-                        <img
-                            src="./assets/images/home/gest.png"
-                            alt="article image"
-                            class="tw-h-full tw-w-full tw-object-cover tw-transition-transform tw-duration-[0.3s] hover:tw-scale-[1.04]"
-                            srcset=""
-                        />
-                    </div>
-                    
-                    <!-- Bloque de Texto  -->
-                    <h3 class="tw-mt-1 tw-text-xl tw-font-semibold max-md:tw-text-lg tw-text-white">
-                        Plexi Gestion
-                    </h3>
-                    <p class="tw-text-sm tw-text-gray-400 tw-line-clamp-2">
-                        Servicio de asesoramiento en Inteligencia de Negocios.
-                    </p>
-                    <span class="tw-text-xs tw-font-medium tw-text-primary tw-flex tw-items-center tw-gap-1">
-                        <span>Ver enlace</span>
-                        <i class="bi bi-arrow-right"></i>
-                    </span>
-                </a>
-<!-- Contenedor 1  -->
-                <a
-                    href="https://uziel44.github.io/ilhagrande/"
-                    class="tw-flex tw-h-[420px] tw-w-[400px] tw-flex-col tw-gap-2 tw-overflow-clip tw-rounded-lg tw-p-4 max-lg:tw-w-[300px]">
-                    
-                    
-                    <div class="tw-h-[500px] tw-w-full tw-overflow-hidden tw-rounded-md">
-                        <img
-                            src="./assets/images/home/ilha.png"
-                            alt="article image"
-                            class="tw-h-full tw-w-full tw-object-cover tw-transition-transform tw-duration-[0.3s] hover:tw-scale-[1.04]"
-                            srcset=""
-                        />
-                    </div>
-                    
-                    <!-- Bloque de Texto  -->
-                    <h3 class="tw-mt-1 tw-text-xl tw-font-semibold max-md:tw-text-lg tw-text-white">
-                        Guia Ilha Grande Aventura
-                    </h3>
-                    <p class="tw-text-sm tw-text-gray-400 tw-line-clamp-2">
-                        Servicio de ecoturismo aventura.
-                    </p>
-                    <span class="tw-text-xs tw-font-medium tw-text-primary tw-flex tw-items-center tw-gap-1">
-                        <span>Ver enlace</span>
-                        <i class="bi bi-arrow-right"></i>
-                    </span>
-                </a>
-<!-- Contenedor 1  -->
-                <a
-                    href="https://uziel44.github.io/datovivo/"
-                    class="tw-flex tw-h-[420px] tw-w-[400px] tw-flex-col tw-gap-2 tw-overflow-clip tw-rounded-lg tw-p-4 max-lg:tw-w-[300px]">
-                    
-                    <!-- Contenedor de Imagen  -->
-                    <div class="tw-h-[500px] tw-w-full tw-overflow-hidden tw-rounded-md">
-                        <img
-                            src="./assets/images/home/dato.png"
-                            alt="article image"
-                            class="tw-h-full tw-w-full tw-object-cover tw-transition-transform tw-duration-[0.3s] hover:tw-scale-[1.04]"
-                            srcset=""
-                        />
-                    </div>
-                    
-                    <!-- Bloque de Texto  -->
-                    <h3 class="tw-mt-1 tw-text-xl tw-font-semibold max-md:tw-text-lg tw-text-white">
-                        Datovivo
-                    </h3>
-                    <p class="tw-text-sm tw-text-gray-400 tw-line-clamp-2">
-                        Blog de analisis estadísticos.
-                    </p>
-                    <span class="tw-text-xs tw-font-medium tw-text-primary tw-flex tw-items-center tw-gap-1">
-                        <span>Ver enlace</span>
-                        <i class="bi bi-arrow-right"></i>
-                    </span>
-                </a>
-
-
+        <div class="testimonial-card">
+          <div class="stars">
+            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+          </div>
+          <p class="testimonial-quote">"La plataforma muestra la esencia de nuestras experiencias al aire libre. La navegación es superintuitiva para los viajeros y se nota en las reservas de excursiones desde que lanzamos la web."</p>
+          <div class="testimonial-author">
+            <div class="avatar"></div>
+            <div>
+              <div class="author-name">Franco Raffaeli</div>
+              <div class="author-role">Guia ilha grande aventura</div>
             </div>
-        </section>
+          </div>
+        </div>
+      </div>
+    </section>
 
+  </main>
 
-        <section
-            class="tw-relative tw-flex tw-min-h-[80vh] tw-w-full tw-max-w-[100vw] tw-flex-col tw-place-content-center tw-place-items-center tw-overflow-hidden tw-p-6"
-        >
-            <div
-                class="reveal-up tw-flex tw-min-h-[60vh] tw-place-content-center tw-place-items-center tw-gap-[10%] max-lg:tw-flex-col max-lg:tw-gap-10">
-                
-                
-                <div
-                    class="tw-mt-6 tw-flex tw-max-w-[500px] tw-flex-col tw-gap-4">
-                    <h3 class="tw-text-4xl tw-font-medium max-md:tw-text-2xl">
-                        Tu web en 3 simples pasos.
-                    </h3>
+  <footer class="site-footer" id="contacto">
+    <div class="footer-social">
+      <div class="footer-title">Seguinos</div>
+      <div class="social-icons">
+        <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+        <a href="#" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+        <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+      </div>
+    </div>
+    <div class="footer-links">
+      <div class="footer-title footer-title-brand">Webs para...</div>
+      <nav class="footer-nav">
+        <a href="#">Empresa de servicio</a>
+        <a href="#">Negocio comercial</a>
+        <a href="#">Emprendedores</a>
+        <a href="#">Profesionales</a>
+        <a href="#">Carta de presentación</a>
+        <a href="#" id="footer-cookie-link">Cookies</a>
+      </nav>
+    </div>
+  </footer>
 
-                    <div class="tw-mt-4 tw-flex tw-flex-col tw-gap-3">
-                            <ol class="tw-mt-4 tw-space-y-2 tw-text-lg tw-font-semibold tw-text-white-400 md:tw-text-xl">
-                                <li>1. Estudiamos tu negocio y generamos un primer boceto</li>
-                                <li>2. Corregimos detalles y dejamos un producto final</li>
-                                <li>3. Hacemos seguimiento de tu web</li>
-                            </ol>                                                                                                                                                                                 
-                    </div>
-                    <div class="tw-mt-8">
-                            
-                        <h1 class="tw-text-xl tw-font-medium">
-                            <i class="bi bi-check-all !tw-text-2xl"></i>
-                            Otros productos.
-                        </h1>
-                        <ol class="tw-mt-4 tw-space-y-2 tw-text-lg tw-font-semibold tw-text-gray-400 md:tw-text-xl">
-                                <li>Potenciamos tus ventas con analitica de dato y desarrollo SEO</li>
-                                <li>Hacemos Inteligencia de negocio para que la web sea tu herramienta principal de ventas que acompañe el crecimiento de tu empresa.  </li>
-                                <li></li>
-                            </ol>
-                        
-                    </div>
-                    <div class="tw-mt-4 tw-flex tw-flex-col tw-gap-3">
-                        <h4 class="tw-text-xl tw-font-medium">
-                            <i class="bi bi-check-all !tw-text-2xl"></i>
-                            Desarrollo software avanzado.
-                        </h4>
-                        <span
-                            class="tw-mt-4 tw-space-y-2 tw-text-lg tw-font-semibold tw-text-gray-400 md:tw-text-xl">
-                            Desarrollamos software a medida y automatización con IA para transformar tus datos en decisiones estratégicas.
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </section>
+  <div class="cookie-banner" id="cookie-banner" role="dialog" aria-label="Preferencias de cookies" aria-hidden="true">
+    <div class="cookie-card">
+      <p class="cookie-text">Usamos cookies para mejorar tu experiencia y entender cómo usás el sitio.</p>
 
-        
+      <div class="cookie-settings-panel" id="cookie-settings-panel" hidden>
+        <label class="cookie-toggle">
+          <span>Necesarias</span>
+          <input type="checkbox" checked disabled>
+        </label>
+        <label class="cookie-toggle">
+          <span>Analítica</span>
+          <input type="checkbox" id="cookie-analytics-toggle" checked>
+        </label>
+        <button class="cookie-save" id="cookie-save">Guardar preferencias</button>
+      </div>
 
+      <div class="cookie-actions">
+        <button class="btn btn-secondary btn-sm" id="cookie-reject">Rechazar</button>
+        <button class="btn btn-primary btn-sm" id="cookie-accept">Aceptar</button>
+      </div>
+      <a href="#" class="cookie-link" id="cookie-settings">Preferencias</a>
+    </div>
+  </div>
 
-
-
-
-        <section
-            class="tw-mt-5 tw-flex tw-w-full tw-flex-col tw-place-items-center tw-p-[2%]"
-            id="pricing"
-        >
-            <h3
-                class="tw-text-3xl tw-font-medium tw-text-gray-300 max-md:tw-text-2xl"
-            >
-                Costo de nuestro servicio
-            </h3>
-            <!-- pricing -->
-            <div
-                class="tw-mt-10 tw-flex tw-flex-wrap tw-place-content-center tw-gap-8 max-lg:tw-flex-col"
-            >
-                <div
-                    class="reveal-up tw-flex tw-w-[380px] tw-flex-col tw-place-items-center tw-gap-2 tw-rounded-lg tw-border-[1px] tw-border-outlineColor tw-bg-secondary tw-p-8 tw-shadow-xl max-lg:tw-w-[320px]"
-                >
-                    <h3 class="">
-                        <span class="tw-text-5xl tw-font-semibold">$100.000</span>
-                        <span class="tw-text-2xl tw-text-gray-400"></span>
-                    </h3>
-                    <p class="tw-mt-3 tw-text-center tw-text-gray-300">
-                        Pago único por desarrollo de web estática tipo landing page. Incluye dominio y hosting.
-                    </p>
-                    <hr />
-                    <ul
-                        class="tw-mt-4 tw-flex tw-flex-col tw-gap-2 tw-text-center tw-text-lg tw-text-gray-200"
-                    >
-                        <li>Desarrollo de landing page simple</li>
-                        <li>Una web en el mercado tiene un valor de $300usd mínimo, nuestro costo es competitivos</li>
-                        <li>Hasta 3 cambios de estructura</li>
-                        <li>Permitido multiples cambios de texto e imagenes</li>
-                    </ul>
-                    <a
-                        href="https://wa.me/5493517732496?text=Hola,%20quiero%20una%20landing%20page"
-                        class="btn tw-mt-8 !tw-w-full tw-transition-transform tw-duration-[0.3s] hover:tw-scale-x-[1.02]"
-                    >
-                        Quiero mi Landing Page
-                    </a>
-                </div>
-                <div
-                    class="reveal-up tw-flex tw-w-[380px] tw-flex-col tw-place-items-center tw-gap-2 tw-rounded-lg tw-border-2 tw-border-primary tw-bg-secondary tw-p-8 tw-shadow-xl max-lg:tw-w-[320px]"
-                >
-                    <h3 class="">
-                        <span class="tw-text-5xl tw-font-semibold">$50.000</span>
-                        <span class="tw-text-2xl tw-text-gray-400">/mes</span>
-                    </h3>
-                    <p class="tw-mt-3 tw-text-center tw-text-gray-300">
-                        Pago mensual por optimización SEO y analítica de datos para generar más ventas.
-                    </p>    
-                    <hr />
-                    <ul
-                        class="tw-mt-4 tw-flex tw-flex-col tw-gap-2 tw-text-center tw-text-lg tw-text-gray-200"
-                    >
-                        <li>Optimizacion SEO técnico</li>
-                        <li>Analisis de datos y creación de informes</li>
-                        <li>Desarrollo del área ventas</li>
-                        <li></li>
-                    </ul>
-                    <a
-                        href="https://wa.me/5493517732496?text=Hola,%20quiero%20optimización%20SEO"
-                        class="btn tw-mt-8 !tw-w-full tw-transition-transform tw-duration-[0.3s] hover:tw-scale-x-[1.02]"
-                    >
-                        Quiero optimización SEO
-                    </a>
-                </div>
-                <div
-                    class="reveal-up tw-flex tw-w-[380px] tw-flex-col tw-place-items-center tw-gap-2 tw-rounded-lg tw-border-[1px] tw-border-outlineColor tw-bg-secondary tw-p-8 tw-shadow-xl max-lg:tw-w-[320px]"
-                >
-                    <h3 class="">
-                        <span class="tw-text-5xl tw-font-semibold"></span>
-                        <span class="tw-text-2xl tw-text-gray-400"></span>
-                    </h3>
-                    <p class="tw-mt-3 tw-text-center tw-text-gray-300">
-                        Rediseño de tu web y desarrollo de software a medida para la gestión de tu empresa.
-                    </p>
-                    <hr />
-                    <ul
-                        class="tw-mt-4 tw-flex tw-flex-col tw-gap-2 tw-text-center tw-text-lg tw-text-gray-200"
-                    >
-                        <li>Desarrollo de web dinámica</li>
-                        <li>Rediseño de tu web</li>
-                        <li>Software de gestión POS y ERP a medida</li>
-                        <li>Automatización de procesos con IA AGENTIC</li>
-                    </ul>
-                    <a
-                        href="https://wa.me/5493517732496?text=Hola,%20quiero%20consultar%20por..."
-                        class="btn tw-mt-8 !tw-w-full tw-transition-transform tw-duration-[0.3s] hover:tw-scale-x-[1.02]"
-                    >
-                        Coordinar una reunion
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        
-
-        
-
-        
- <!-- WhatsApp Button -->
-<a href="https://wa.me/5493517732496?text=Hola,%20me%20gustaría%20consultar"
-   target="_blank"
-   class="whatsapp-button">
-  <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="30" cy="30" r="30" fill="#25D366"/>
-    <path d="M30 14C21.7 14 15 20.7 15 29C15 32.3 16.1 35.3 17.9 37.7L16 44L22.6 42.2C25 43.7 27.9 44.5 30 44.5C38.3 44.5 45 37.8 45 29.5C45 21.2 38.3 14 30 14ZM38.5 35.1C38.2 35.7 37.2 36.2 36.3 36.4C35.6 36.5 34.7 36.7 33 36C31.9 35.5 30.5 34.8 29.4 33.5C28.6 32.6 27.5 30.9 27.5 29.1C27.5 27.3 28.4 26.4 28.8 25.9C29.2 25.4 29.8 25.2 30.3 25.2C30.6 25.2 30.9 25.2 31.1 25.2C31.4 25.2 31.8 25.1 32.1 25.8C32.5 26.6 33.3 28.5 33.5 28.9C33.6 29.2 33.5 29.5 33.2 29.8C33 30 32.7 30.3 32.5 30.5C32.2 30.8 31.9 31.1 32.2 31.6C32.5 32.1 33.3 33.3 34.4 34.2C35.8 35.3 37 35.7 37.5 35.9C37.8 36 38.1 35.9 38.3 35.6C38.6 35.2 39.2 34.3 39.4 33.8C39.6 33.3 39.8 33.4 40.1 33.5C40.3 33.6 42 34.4 42.4 34.6C42.8 34.8 43.1 34.9 43.2 35.1C43.2 35.5 42.9 35.9 38.5 35.1Z" fill="white"/>
-  </svg>
-</a>
-
-
-
-        <footer
-            class="tw-mt-auto tw-flex tw-w-full tw-place-content-around tw-gap-3 tw-p-[5%] tw-px-[10%] tw-text-white max-md:tw-flex-col"
-        >
-            
-                <div class="tw-mt-3 tw-text-lg tw-font-semibold">Seguinos</div>
-                <div class="tw-flex tw-gap-4 tw-text-2xl">
-                    <a href="" aria-label="Facebook">
-                        <i class="bi bi-facebook"></i>
-                    </a>
-                    <a
-                        href=""
-                        aria-label="Twitter"
-                    >
-                        <i class="bi bi-twitter"></i>
-                    </a>
-                    <a
-                        href=""
-                        class="tw-h-[40px] tw-w-[40px]"
-                        aria-label="Instagram"
-                    >
-                        <i class="bi bi-instagram"></i>
-                    </a>
-                </div>
-            </div>
-
-            <div class="tw-flex tw-h-full tw-w-[250px] tw-flex-col tw-gap-4">
-                <h2 class="tw-text-3xl max-md:tw-text-xl">Webs para...</h2>
-                <div class="tw-flex tw-flex-col tw-gap-3 max-md:tw-text-sm">
-                    <a href="" class="footer-link">Empresa de servicio</a>
-                    <a href="" class="footer-link">Negocio comercial</a>
-                    <a href="" class="footer-link">Emprendedores</a>
-                    <a href="" class="footer-link">Profesionales</a>
-                    <a href="" class="footer-link">Carta de presentación</a>
-                </div>
-            </div>
-
-            <div class="tw-flex tw-h-full tw-w-[250px] tw-flex-col tw-gap-4">
-                <h2 class="tw-text-3xl max-md:tw-text-xl"></h2>
-                <div class="tw-flex tw-flex-col tw-gap-3 max-md:tw-text-sm">
-                    <a href="" class="footer-link"></a>
-                    <a href="" class="footer-link"></a>
-                    <a href="" class="footer-link"></a>
-                    <a href="" class="footer-link"></a>
-                    <a href="" class="footer-link"></a>
-                </div>
-            </div>
-        </footer>
-
-    </body>
-
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/gsap.min.js"
-        integrity="sha512-B1lby8cGcAUU3GR+Fd809/ZxgHbfwJMp0jLTVfHiArTuUt++VqSlJpaJvhNtRf3NERaxDNmmxkdx2o+aHd4bvw=="
-        crossorigin="anonymous"
-        referrerpolicy="no-referrer"
-    ></script>
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.0/ScrollTrigger.min.js"
-        integrity="sha512-AY2+JxnBETJ0wcXnLPCcZJIJx0eimyhz3OJ55k2Jx4RtYC+XdIi2VtJQ+tP3BaTst4otlGG1TtPJ9fKrAUnRdQ=="
-        crossorigin="anonymous"
-        referrerpolicy="no-referrer"
-    ></script>
-
-    <script src="./index.js"></script>
+  <script src="js/script.js"></script>
+</body>
 </html>
