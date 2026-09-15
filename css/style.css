@@ -410,6 +410,62 @@ img { max-width: 100%; display: block; }
 .author-name { font-size: 13px; font-weight: 600; }
 .author-role { font-size: 11px; color: var(--ink-faint); }
 
+/* ---------- Plexipedidos ---------- */
+.plexipedidos {
+  padding: 70px 60px;
+  background: var(--bg-alt);
+  display: flex;
+  justify-content: center;
+}
+
+.plexipedidos-inner {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  max-width: var(--max-width);
+}
+
+.plexipedidos-info { flex: 1; min-width: 280px; }
+
+.plexipedidos-subtitle {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--accent);
+  margin: -12px 0 14px;
+}
+
+.plexipedidos-desc {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.plexipedidos-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.plexipedidos-demo {
+  flex: 1;
+  min-width: 280px;
+  max-width: 360px;
+  aspect-ratio: 9 / 16;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.12);
+  border: 1px solid var(--border);
+  background: #fff;
+}
+
+.plexipedidos-demo iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
 /* ---------- Footer ---------- */
 .site-footer {
   padding: 40px 60px;
@@ -467,7 +523,10 @@ img { max-width: 100%; display: block; }
   .hero { padding: 56px 24px 50px; }
   .hero-title { font-size: 36px; }
 
-  .portfolio, .proceso, .pricing, .testimonials { padding-left: 24px; padding-right: 24px; }
+  .portfolio, .proceso, .pricing, .testimonials, .plexipedidos { padding-left: 24px; padding-right: 24px; }
+
+  .plexipedidos-inner { flex-direction: column; }
+  .plexipedidos-demo { max-width: 320px; }
 
   .carousel-track { grid-auto-columns: 44vw; gap: 12px; }
 
