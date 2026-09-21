@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AguaGestión — Panel de reparto</title>
+<meta name="description" content="MVP de gestión de clientes para un vendedor de agua en bidón. Simulación sin backend: los datos se comportan como si vinieran de PostgreSQL.">
+<style>
+  :root{
+    --azul-900:#0b3d5c;
+    --azul-700:#0f5f8c;
+    --azul-500:#1a8fc7;
+    --azul-300:#5cc3e8;
+    --azul-100:#e5f6fc;
+    --bg:#f2f8fb;
+    --card:#ffffff;
+    --texto:#123047;
+    --texto-suave:#4d6b80;
+    --borde:#d7e9f2;
+    --verde:#2f9e5a;
+    --verde-bg:#e6f7ed;
+    --naranja:#e08a1e;
+    --naranja-bg:#fdf1de;
+    --rojo:#d9483d;
+    --rojo-bg:#fbe9e7;
+    --radio:14px;
+    --sombra:0 4px 16px rgba(11,61,92,0.08);
+    font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--texto);
+    min-height:100vh;
+  }
+  #app{min-height:100vh;display:flex;flex-direction:column;}
+
+  /* ---------- Utilidades ---------- */
+  .oculto{display:none !important;}
+  button{
+    font-family:inherit;
+    cursor:pointer;
+    border:none;
+    border-radius:10px;
+    font-size:0.95rem;
+  }
+  input, select{
+    font-family:inherit;
+    font-size:0.95rem;
+    border:1px solid var(--borde);
+    border-radius:10px;
+    padding:10px 12px;
+    background:#fff;
+    color:var(--texto);
+  }
+  input:focus, select:focus{outline:2px solid var(--azul-300);}
+  .btn-primario{
+    background:var(--azul-700);
+    color:#fff;
+    padding:11px 20px;
+    font-weight:600;
+  }
+  .btn-primario:hover{background:var(--azul-900);}
+  .btn-secundario{
+    background:var(--azul-100);
+    color:var(--azul-900);
+    padding:10px 16px;
+    font-weight:600;
+  }
+  .btn-secundario:hover{background:#d3edf7;}
+  .btn-peligro{
+    background:var(--rojo-bg);
+    color:var(--rojo);
+    padding:8px 14px;
+    font-weight:600;
+  }
+  .btn-peligro:hover{background:#f7d5d1;}
+  .btn-ok{
+    background:var(--verde-bg);
+    color:var(--verde);
+    padding:8px 14px;
+    font-weight:600;
+  }
+  .btn-ok:hover{background:#d3f0dd;}
+  .pill{
+    display:inline-block;
+    padding:3px 10px;
+    border-radius:999px;
+    font-size:0.75rem;
+    font-weight:700;
+    letter-spacing:.02em;
+  }
+  .pill-pendiente{background:var(--naranja-bg);color:var(--naranja);}
+  .pill-entregado{background:var(--verde-bg);color:var(--verde);}
+  .pill-admin{background:var(--azul-900);color:#fff;}
+  .pill-vendedor{background:var(--azul-100);color:var(--azul-900);}
+
+  /* ---------- Login ---------- */
+  .pantalla-login{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(160deg,var(--azul-900),var(--azul-500));
+    padding:24px;
+  }
+  .caja-login{
+    background:#fff;
+    border-radius:var(--radio);
+    box-shadow:0 20px 50px rgba(0,0,0,0.25);
+    padding:36px 32px;
+    width:100%;
+    max-width:380px;
+  }
+  .logo-login{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    justify-content:center;
+    margin-bottom:6px;
+  }
+  .logo-login .gota{font-size:2rem;}
+  .logo-login h1{font-size:1.4rem;margin:0;color:var(--azul-900);}
+  .caja-login p.sub{text-align:center;color:var(--texto-suave);margin:0 0 24px;font-size:0.9rem;}
+  .campo{margin-bottom:14px;display:flex;flex-direction:column;gap:6px;}
+  .campo label{font-size:0.82rem;font-weight:600;color:var(--texto-suave);}
+  .caja-login button[type=submit]{width:100%;margin-top:8px;padding:12px;font-size:1rem;}
+  .error-login{
+    background:var(--rojo-bg);
+    color:var(--rojo);
+    padding:9px 12px;
+    border-radius:10px;
+    font-size:0.85rem;
+    margin-bottom:14px;
+  }
+  .demo-creds{
+    margin-top:20px;
+    background:var(--azul-100);
+    border-radius:10px;
+    padding:12px 14px;
+    font-size:0.78rem;
+    color:var(--azul-900);
+    line-height:1.5;
+  }
+  .demo-creds b{display:block;margin-bottom:4px;}
+
+  /* ---------- Layout general app ---------- */
+  header.topbar{
+    background:var(--azul-900);
+    color:#fff;
+    padding:14px 24px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .marca{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.15rem;}
+  .marca .gota{font-size:1.4rem;}
+  nav.tabs{display:flex;gap:6px;flex-wrap:wrap;}
+  nav.tabs button{
+    background:rgba(255,255,255,0.12);
+    color:#fff;
+    padding:9px 16px;
+    font-weight:600;
+    font-size:0.88rem;
+  }
+  nav.tabs button.activo{background:#fff;color:var(--azul-900);}
+  nav.tabs button:hover:not(.activo){background:rgba(255,255,255,0.22);}
+  .usuario-actual{display:flex;align-items:center;gap:10px;font-size:0.85rem;}
+  .avatar{
+    width:34px;height:34px;border-radius:50%;
+    background:var(--azul-300);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:700;
+  }
+  .salir{background:transparent;color:#fff;text-decoration:underline;font-size:0.82rem;padding:4px;}
+
+  main{flex:1;padding:26px 24px 60px;max-width:1100px;width:100%;margin:0 auto;}
+  .titulo-panel{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:22px;}
+  .titulo-panel h2{margin:0;font-size:1.4rem;color:var(--azul-900);}
+  .titulo-panel p{margin:4px 0 0;color:var(--texto-suave);font-size:0.9rem;}
+
+  .aviso-simulacion{
+    background:var(--azul-100);
+    border:1px dashed var(--azul-300);
+    color:var(--azul-900);
+    padding:10px 14px;
+    border-radius:10px;
+    font-size:0.8rem;
+    margin-bottom:20px;
+  }
+
+  /* ---------- Días de la semana ---------- */
+  .grid-dias{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+    gap:16px;
+  }
+  .tarjeta-dia{
+    background:var(--card);
+    border-radius:var(--radio);
+    box-shadow:var(--sombra);
+    padding:20px;
+    text-align:left;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    border:1px solid var(--borde);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .tarjeta-dia:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(11,61,92,0.14);}
+  .tarjeta-dia .nombre-dia{font-size:1.1rem;font-weight:700;color:var(--azul-900);text-transform:capitalize;}
+  .tarjeta-dia .contador{font-size:2rem;font-weight:800;color:var(--azul-500);}
+  .tarjeta-dia .etiqueta{font-size:0.78rem;color:var(--texto-suave);}
+  .tarjeta-dia .barra-progreso{
+    height:6px;border-radius:99px;background:var(--azul-100);overflow:hidden;
+  }
+  .tarjeta-dia .barra-progreso span{display:block;height:100%;background:var(--verde);}
+  .dia-hoy{border:2px solid var(--azul-500);}
+
+  /* ---------- Listado clientes del día ---------- */
+  .barra-volver{display:flex;align-items:center;gap:14px;margin-bottom:16px;flex-wrap:wrap;}
+  .btn-volver{background:none;color:var(--azul-700);font-weight:700;padding:6px 0;}
+  .barra-filtros{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;align-items:center;}
+  .barra-filtros input[type=search]{flex:1;min-width:180px;}
+  .resumen-dia{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:18px;}
+  .stat-mini{background:#fff;border:1px solid var(--borde);border-radius:10px;padding:10px 16px;font-size:0.8rem;color:var(--texto-suave);}
+  .stat-mini b{display:block;font-size:1.25rem;color:var(--azul-900);}
+
+  .grid-clientes{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+    gap:16px;
+  }
+  .tarjeta-cliente{
+    background:var(--card);
+    border-radius:var(--radio);
+    box-shadow:var(--sombra);
+    border:1px solid var(--borde);
+    padding:18px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    position:relative;
+  }
+  .tarjeta-cliente.entregado{opacity:0.65;}
+  .tarjeta-cliente .fila-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
+  .tarjeta-cliente h3{margin:0;font-size:1.05rem;color:var(--azul-900);}
+  .tarjeta-cliente .direccion{display:flex;gap:6px;color:var(--texto-suave);font-size:0.88rem;align-items:flex-start;}
+  .tarjeta-cliente .direccion .icono{flex-shrink:0;}
+  .tarjeta-cliente .detalle{display:flex;gap:14px;font-size:0.82rem;color:var(--texto-suave);flex-wrap:wrap;}
+  .tarjeta-cliente .acciones{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;}
+  .tarjeta-cliente .acciones button{flex:1;min-width:110px;}
+  .vacio{
+    text-align:center;
+    padding:50px 20px;
+    color:var(--texto-suave);
+    background:#fff;
+    border-radius:var(--radio);
+    border:1px dashed var(--borde);
+  }
+
+  /* ---------- Modal ---------- */
+  .fondo-modal{
+    position:fixed;inset:0;background:rgba(11,30,45,0.45);
+    display:flex;align-items:center;justify-content:center;padding:20px;z-index:50;
+  }
+  .modal{
+    background:#fff;border-radius:var(--radio);padding:26px;max-width:420px;width:100%;
+    box-shadow:0 20px 60px rgba(0,0,0,0.3);
+  }
+  .modal h3{margin-top:0;color:var(--azul-900);}
+  .modal .fila-botones{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;}
+  .modal-2col{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+  /* ---------- Perfil ---------- */
+  .tarjeta-perfil{
+    background:#fff;border:1px solid var(--borde);border-radius:var(--radio);
+    padding:26px;max-width:520px;box-shadow:var(--sombra);
+  }
+  .tarjeta-perfil .avatar-grande{
+    width:70px;height:70px;border-radius:50%;background:var(--azul-500);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:1.6rem;font-weight:700;margin-bottom:14px;
+  }
+  .grid-form{display:flex;flex-direction:column;gap:14px;margin-top:16px;}
+  .grid-form .campo label{font-size:0.8rem;font-weight:700;color:var(--texto-suave);}
+
+  /* ---------- Usuarios (admin) ---------- */
+  .usuarios-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:18px;}
+  .usuarios-header .conteo{font-size:1.05rem;font-weight:700;color:var(--texto);}
+  .btn-agregar-usuario{background:#1fa855;color:#fff;padding:12px 22px;border-radius:12px;font-weight:700;font-size:0.92rem;}
+  .btn-agregar-usuario:hover{background:#178a45;}
+  .lista-usuarios-cards{display:flex;flex-direction:column;gap:14px;}
+  .card-usuario{
+    background:#fff;border-radius:16px;box-shadow:var(--sombra);
+    padding:18px 20px;display:flex;justify-content:space-between;align-items:center;gap:14px;
+    flex-wrap:wrap;
+  }
+  .card-usuario .info h3{margin:0 0 6px;font-size:1.05rem;display:flex;align-items:center;gap:8px;color:var(--texto);}
+  .badge-admin{background:#e6413a;color:#fff;font-size:0.66rem;font-weight:800;padding:3px 10px;border-radius:999px;letter-spacing:.03em;}
+  .badge-vendedor{background:var(--azul-100);color:var(--azul-900);font-size:0.66rem;font-weight:800;padding:3px 10px;border-radius:999px;letter-spacing:.03em;}
+  .card-usuario .info .linea-usuario{color:var(--texto-suave);font-size:0.85rem;}
+  .card-usuario .info .linea-extra{color:var(--azul-500);font-size:0.82rem;margin-top:2px;}
+  .card-usuario .iconos{display:flex;gap:8px;}
+  .icono-btn{
+    width:38px;height:38px;border-radius:10px;background:var(--azul-100);
+    display:flex;align-items:center;justify-content:center;font-size:1rem;
+    border:none;cursor:pointer;color:var(--azul-900);
+  }
+  .icono-btn.peligro{background:var(--rojo-bg);}
+  .icono-btn:hover{filter:brightness(0.94);}
+
+  .toast{
+    position:fixed;bottom:22px;right:22px;background:var(--azul-900);color:#fff;
+    padding:12px 18px;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,0.25);
+    font-size:0.88rem;z-index:100;
+  }
+
+  @media (max-width:640px){
+    header.topbar{flex-direction:column;align-items:flex-start;}
+    nav.tabs{width:100%;}
+    .modal-2col{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* =========================================================================
+     "BASE DE DATOS" SIMULADA
+     En producción esto sería una API (Node/Express, etc.) contra PostgreSQL:
+     tablas usuarios, clientes, visitas. Acá se simula con localStorage para
+     que la demo persista datos entre recargas sin necesitar servidor.
+  ========================================================================= */
+  const DB_KEY = "aguagestion_db_v1";
+  const DIAS = ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"];
+  const NOMBRE_DIA = {lunes:"Lunes",martes:"Martes",miercoles:"Miércoles",jueves:"Jueves",viernes:"Viernes",sabado:"Sábado",domingo:"Domingo"};
+
+  function idNuevo(lista){
+    return lista.reduce((max,i)=>Math.max(max,i.id),0)+1;
+  }
+
+  function datosIniciales(){
+    return {
+      usuarios:[
+        {id:1, usuario:"admin", clave:"admin123", nombre:"Marcelo Ríos", email:"marcelo@aguagestion.com", telefono:"11-4000-1000", rol:"admin"},
+        {id:2, usuario:"juan", clave:"juan123", nombre:"Juan Pereyra", email:"juan@aguagestion.com", telefono:"11-4000-2000", rol:"vendedor"},
+        {id:3, usuario:"lucia", clave:"lucia123", nombre:"Lucía Fernández", email:"lucia@aguagestion.com", telefono:"11-4000-3000", rol:"vendedor"}
+      ],
+      clientes:[
+        {id:1, nombre:"Almacén Don Pedro", direccion:"Av. Rivadavia 4520", telefono:"11-2233-1111", bidones:3, dia:"lunes", estado:"pendiente", notas:"Tocar timbre, portón azul"},
+        {id:2, nombre:"Kiosco La Esquina", direccion:"San Martín 812", telefono:"11-2233-2222", bidones:2, dia:"lunes", estado:"entregado", notas:""},
+        {id:3, nombre:"Fam. González", direccion:"Belgrano 245, depto B", telefono:"11-2233-3333", bidones:1, dia:"lunes", estado:"pendiente", notas:"Pref. entrega por la tarde"},
+        {id:4, nombre:"Panadería Sol", direccion:"Mitre 1330", telefono:"11-2233-4444", bidones:4, dia:"martes", estado:"pendiente", notas:""},
+        {id:5, nombre:"Fam. Ibáñez", direccion:"9 de Julio 88", telefono:"11-2233-5555", bidones:2, dia:"martes", estado:"pendiente", notas:"Dejar en portería"},
+        {id:6, nombre:"Oficina Contable Ruiz", direccion:"Corrientes 2201, piso 4", telefono:"11-2233-6666", bidones:2, dia:"miercoles", estado:"pendiente", notas:""},
+        {id:7, nombre:"Fam. Torres", direccion:"Alsina 990", telefono:"11-2233-7777", bidones:1, dia:"miercoles", estado:"entregado", notas:""},
+        {id:8, nombre:"Verdulería Fresh", direccion:"Sarmiento 455", telefono:"11-2233-8888", bidones:3, dia:"jueves", estado:"pendiente", notas:"Pagan en efectivo"},
+        {id:9, nombre:"Fam. Cabrera", direccion:"Independencia 1500", telefono:"11-2233-9999", bidones:2, dia:"jueves", estado:"pendiente", notas:""},
+        {id:10, nombre:"Gimnasio PowerFit", direccion:"Av. Libertador 3300", telefono:"11-2234-0000", bidones:6, dia:"viernes", estado:"pendiente", notas:"Entrar por el estacionamiento"},
+        {id:11, nombre:"Fam. Medina", direccion:"Moreno 670", telefono:"11-2234-1111", bidones:1, dia:"viernes", estado:"pendiente", notas:""},
+        {id:12, nombre:"Ferretería Central", direccion:"Rivadavia 100", telefono:"11-2234-2222", bidones:2, dia:"sabado", estado:"pendiente", notas:"Cierran temprano, ir antes de las 12"},
+        {id:13, nombre:"Fam. Suárez", direccion:"Lavalle 340", telefono:"11-2234-3333", bidones:1, dia:"domingo", estado:"pendiente", notas:""}
+      ]
+    };
+  }
+
+  function cargarDB(){
+    try{
+      const crudo = localStorage.getItem(DB_KEY);
+      if(crudo) return JSON.parse(crudo);
+    }catch(e){ /* localStorage no disponible o corrupto: seguimos con datos iniciales */ }
+    const inicial = datosIniciales();
+    guardarDB(inicial);
+    return inicial;
+  }
+  function guardarDB(db){
+    try{ localStorage.setItem(DB_KEY, JSON.stringify(db)); }catch(e){}
+  }
+
+  let db = cargarDB();
+
+  /* =========================================================================
+     ESTADO DE LA APP (sesión y navegación) — se guarda aparte de la "DB"
+  ========================================================================= */
+  let estado = {
+    usuarioId: null,       // id del usuario logueado
+    vista: "login",        // login | dias | clientesDia | perfil | usuarios
+    diaSeleccionado: null,
+    filtroTexto: "",
+    filtroEstado: "todos"
+  };
+
+  function usuarioActual(){
+    return db.usuarios.find(u=>u.id===estado.usuarioId) || null;
+  }
+
+  function mostrarToast(msg){
+    const previo = document.querySelector(".toast");
+    if(previo) previo.remove();
+    const t = document.createElement("div");
+    t.className="toast";
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(()=>t.remove(), 2200);
+  }
+
+  /* =========================================================================
+     RENDER
+  ========================================================================= */
+  const app = document.getElementById("app");
+
+  function render(){
+    if(estado.vista==="login" || !usuarioActual()){
+      app.innerHTML = vistaLogin();
+      enlazarLogin();
+      return;
+    }
+    const u = usuarioActual();
+    let contenido = "";
+    if(estado.vista==="dias") contenido = vistaDias();
+    else if(estado.vista==="clientesDia") contenido = vistaClientesDia();
+    else if(estado.vista==="perfil") contenido = vistaPerfil(u);
+    else if(estado.vista==="usuarios") contenido = vistaUsuarios();
+    else contenido = vistaDias();
+
+    app.innerHTML = `
+      ${topbar(u)}
+      <main>${contenido}</main>
+    `;
+    enlazarComun();
+    if(estado.vista==="dias") enlazarDias();
+    if(estado.vista==="clientesDia") enlazarClientesDia();
+    if(estado.vista==="perfil") enlazarPerfil();
+    if(estado.vista==="usuarios") enlazarUsuarios();
+  }
+
+  /* ---------------- LOGIN ---------------- */
+  function vistaLogin(){
+    return `
+    <div class="pantalla-login">
+      <div class="caja-login">
+        <div class="logo-login"><span class="gota">💧</span><h1>AguaGestión</h1></div>
+        <p class="sub">Gestión de reparto para vendedores de agua en bidón</p>
+        <div id="error-login"></div>
+        <form id="form-login">
+          <div class="campo">
+            <label for="in-usuario">Usuario</label>
+            <input id="in-usuario" name="usuario" autocomplete="username" required>
+          </div>
+          <div class="campo">
+            <label for="in-clave">Contraseña</label>
+            <input id="in-clave" name="clave" type="password" autocomplete="current-password" required>
+          </div>
+          <button type="submit" class="btn-primario">Ingresar</button>
+        </form>
+        <div class="demo-creds">
+          <b>Demo — usuarios de prueba:</b>
+          admin / admin123 (administrador)<br>
+          juan / juan123 (vendedor)<br>
+          lucia / lucia123 (vendedor)
+        </div>
+      </div>
+    </div>`;
+  }
+  function enlazarLogin(){
+    document.getElementById("form-login").addEventListener("submit", function(e){
+      e.preventDefault();
+      const usuario = document.getElementById("in-usuario").value.trim();
+      const clave = document.getElementById("in-clave").value;
+      const encontrado = db.usuarios.find(u=>u.usuario.toLowerCase()===usuario.toLowerCase() && u.clave===clave);
+      const cajaError = document.getElementById("error-login");
+      if(!encontrado){
+        cajaError.innerHTML = `<div class="error-login">Usuario o contraseña incorrectos.</div>`;
+        return;
+      }
+      estado.usuarioId = encontrado.id;
+      estado.vista = "dias";
+      render();
+    });
+  }
+
+  /* ---------------- TOPBAR / NAV ---------------- */
+  function iniciales(nombre){
+    return nombre.split(" ").map(p=>p[0]).slice(0,2).join("").toUpperCase();
+  }
+  function topbar(u){
+    const esAdmin = u.rol==="admin";
+    return `
+    <header class="topbar">
+      <div class="marca"><span class="gota">💧</span> AguaGestión</div>
+      <nav class="tabs">
+        <button data-nav="dias" class="${estado.vista==="dias"||estado.vista==="clientesDia" ? "activo":""}">Días de reparto</button>
+        <button data-nav="perfil" class="${estado.vista==="perfil" ? "activo":""}">Mi perfil</button>
+        ${esAdmin ? `<button data-nav="usuarios" class="${estado.vista==="usuarios" ? "activo":""}">Usuarios</button>` : ""}
+      </nav>
+      <div class="usuario-actual">
+        <div class="avatar">${iniciales(u.nombre)}</div>
+        <div>
+          <div style="font-weight:700;">${u.nombre}</div>
+          <div style="opacity:.8;font-size:.75rem;text-transform:capitalize;">${u.rol}</div>
+        </div>
+        <button class="salir" data-accion="salir">Cerrar sesión</button>
+      </div>
+    </header>`;
+  }
+  function enlazarComun(){
+    document.querySelectorAll("[data-nav]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        estado.vista = btn.dataset.nav;
+        if(estado.vista==="dias") estado.diaSeleccionado=null;
+        render();
+      });
+    });
+    const salir = document.querySelector("[data-accion='salir']");
+    if(salir) salir.addEventListener("click", ()=>{
+      estado.usuarioId=null;
+      estado.vista="login";
+      render();
+    });
+  }
+
+  /* ---------------- DÍAS DE LA SEMANA ---------------- */
+  function hoyNombre(){
+    const idx = new Date().getDay(); // 0=domingo
+    return ["domingo","lunes","martes","miercoles","jueves","viernes","sabado"][idx];
+  }
+  function vistaDias(){
+    const hoy = hoyNombre();
+    const tarjetas = DIAS.map(dia=>{
+      const clientesDia = db.clientes.filter(c=>c.dia===dia);
+      const entregados = clientesDia.filter(c=>c.estado==="entregado").length;
+      const total = clientesDia.length;
+      const porcentaje = total ? Math.round((entregados/total)*100) : 0;
+      return `
+        <button class="tarjeta-dia ${dia===hoy ? "dia-hoy":""}" data-dia="${dia}">
+          <div class="nombre-dia">${NOMBRE_DIA[dia]} ${dia===hoy ? "· hoy":""}</div>
+          <div class="contador">${total}</div>
+          <div class="etiqueta">cliente${total===1?"":"s"} a visitar</div>
+          <div class="barra-progreso"><span style="width:${porcentaje}%"></span></div>
+          <div class="etiqueta">${entregados}/${total} entregados</div>
+        </button>`;
+    }).join("");
+    return `
+      <div class="titulo-panel">
+        <div>
+          <h2>Panel principal</h2>
+          <p>Elegí un día para ver el listado de clientes a visitar.</p>
+        </div>
+      </div>
+      <div class="aviso-simulacion">🧪 Demo sin backend: los clientes están simulados en el navegador (equivalen a filas de una tabla <code>clientes</code> en PostgreSQL, con columna <code>dia_visita</code>).</div>
+      <div class="grid-dias">${tarjetas}</div>
+    `;
+  }
+  function enlazarDias(){
+    document.querySelectorAll(".tarjeta-dia").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        estado.diaSeleccionado = btn.dataset.dia;
+        estado.filtroTexto="";
+        estado.filtroEstado="todos";
+        estado.vista="clientesDia";
+        render();
+      });
+    });
+  }
+
+  /* ---------------- LISTADO DE CLIENTES DEL DÍA ---------------- */
+  function iconoDireccion(){
+    return `<span class="icono">📍</span>`;
+  }
+  function clientesFiltrados(){
+    const dia = estado.diaSeleccionado;
+    const texto = estado.filtroTexto.toLowerCase();
+    return db.clientes.filter(c=>{
+      if(c.dia!==dia) return false;
+      if(estado.filtroEstado!=="todos" && c.estado!==estado.filtroEstado) return false;
+      if(texto && !(c.nombre.toLowerCase().includes(texto) || c.direccion.toLowerCase().includes(texto))) return false;
+      return true;
+    });
+  }
+  function vistaClientesDia(){
+    const dia = estado.diaSeleccionado;
+    const todos = db.clientes.filter(c=>c.dia===dia);
+    const entregados = todos.filter(c=>c.estado==="entregado").length;
+    const bidonesTotales = todos.reduce((s,c)=>s+Number(c.bidones||0),0);
+    const lista = clientesFiltrados();
+
+    const tarjetas = lista.map(c=>`
+      <div class="tarjeta-cliente ${c.estado==="entregado" ? "entregado":""}">
+        <div class="fila-top">
+          <h3>${c.nombre}</h3>
+          <span class="pill ${c.estado==="entregado" ? "pill-entregado":"pill-pendiente"}">${c.estado==="entregado" ? "Entregado":"Pendiente"}</span>
+        </div>
+        <div class="direccion">${iconoDireccion()}<span>${c.direccion}</span></div>
+        <div class="detalle">
+          <span>🚰 ${c.bidones} bidón${c.bidones==1?"":"es"}</span>
+          <span>📞 ${c.telefono}</span>
+        </div>
+        ${c.notas ? `<div class="detalle" style="color:var(--texto-suave);font-style:italic;">"${c.notas}"</div>` : ""}
+        <div class="acciones">
+          ${c.estado==="entregado"
+            ? `<button class="btn-secundario" data-accion="pendiente" data-id="${c.id}">Marcar pendiente</button>`
+            : `<button class="btn-ok" data-accion="entregar" data-id="${c.id}">✔ Marcar entregado</button>`
+          }
+          <button class="btn-peligro" data-accion="eliminar-cliente" data-id="${c.id}">Quitar</button>
+        </div>
+      </div>
+    `).join("");
+
+    return `
+      <div class="barra-volver">
+        <button class="btn-volver" data-nav="dias">← Volver a los días</button>
+      </div>
+      <div class="titulo-panel">
+        <div>
+          <h2>Clientes a visitar — ${NOMBRE_DIA[dia]}</h2>
+          <p>Listado de entregas de bidones de agua para este día.</p>
+        </div>
+        <button class="btn-primario" id="btn-nuevo-cliente">+ Agregar cliente</button>
+      </div>
+      <div class="resumen-dia">
+        <div class="stat-mini"><b>${todos.length}</b>clientes</div>
+        <div class="stat-mini"><b>${entregados}</b>entregados</div>
+        <div class="stat-mini"><b>${todos.length-entregados}</b>pendientes</div>
+        <div class="stat-mini"><b>${bidonesTotales}</b>bidones a repartir</div>
+      </div>
+      <div class="barra-filtros">
+        <input type="search" id="filtro-texto" placeholder="Buscar por nombre o dirección..." value="${estado.filtroTexto}">
+        <select id="filtro-estado">
+          <option value="todos" ${estado.filtroEstado==="todos"?"selected":""}>Todos los estados</option>
+          <option value="pendiente" ${estado.filtroEstado==="pendiente"?"selected":""}>Pendientes</option>
+          <option value="entregado" ${estado.filtroEstado==="entregado"?"selected":""}>Entregados</option>
+        </select>
+      </div>
+      ${lista.length
+        ? `<div class="grid-clientes">${tarjetas}</div>`
+        : `<div class="vacio">No hay clientes que coincidan con el filtro.</div>`}
+    `;
+  }
+  function enlazarClientesDia(){
+    document.querySelectorAll("[data-nav='dias']").forEach(b=>b.addEventListener("click", ()=>{
+      estado.vista="dias"; render();
+    }));
+    document.getElementById("filtro-texto").addEventListener("input", (e)=>{
+      estado.filtroTexto = e.target.value;
+      render();
+      document.getElementById("filtro-texto").focus();
+      const val = document.getElementById("filtro-texto");
+      val.selectionStart = val.selectionEnd = val.value.length;
+    });
+    document.getElementById("filtro-estado").addEventListener("change", (e)=>{
+      estado.filtroEstado = e.target.value;
+      render();
+    });
+    document.querySelectorAll("[data-accion='entregar']").forEach(b=>b.addEventListener("click", ()=>{
+      const c = db.clientes.find(x=>x.id==b.dataset.id);
+      c.estado="entregado";
+      guardarDB(db);
+      render();
+      mostrarToast(`Entrega registrada para ${c.nombre}`);
+    }));
+    document.querySelectorAll("[data-accion='pendiente']").forEach(b=>b.addEventListener("click", ()=>{
+      const c = db.clientes.find(x=>x.id==b.dataset.id);
+      c.estado="pendiente";
+      guardarDB(db);
+      render();
+    }));
+    document.querySelectorAll("[data-accion='eliminar-cliente']").forEach(b=>b.addEventListener("click", ()=>{
+      const c = db.clientes.find(x=>x.id==b.dataset.id);
+      if(!confirm(`¿Quitar a "${c.nombre}" del listado de ${NOMBRE_DIA[estado.diaSeleccionado]}?`)) return;
+      db.clientes = db.clientes.filter(x=>x.id!=b.dataset.id);
+      guardarDB(db);
+      render();
+    }));
+    document.getElementById("btn-nuevo-cliente").addEventListener("click", abrirModalNuevoCliente);
+  }
+
+  function abrirModalNuevoCliente(){
+    const fondo = document.createElement("div");
+    fondo.className="fondo-modal";
+    fondo.innerHTML = `
+      <div class="modal">
+        <h3>Nuevo cliente — ${NOMBRE_DIA[estado.diaSeleccionado]}</h3>
+        <form id="form-nuevo-cliente">
+          <div class="campo"><label>Nombre del cliente</label><input name="nombre" required></div>
+          <div class="campo"><label>Dirección</label><input name="direccion" required></div>
+          <div class="modal-2col">
+            <div class="campo"><label>Teléfono</label><input name="telefono"></div>
+            <div class="campo"><label>Bidones</label><input name="bidones" type="number" min="1" value="1" required></div>
+          </div>
+          <div class="campo"><label>Notas (opcional)</label><input name="notas" placeholder="Ej: dejar en portería"></div>
+          <div class="fila-botones">
+            <button type="button" class="btn-secundario" id="cancelar-modal">Cancelar</button>
+            <button type="submit" class="btn-primario">Guardar cliente</button>
+          </div>
+        </form>
+      </div>`;
+    document.body.appendChild(fondo);
+    fondo.querySelector("#cancelar-modal").addEventListener("click", ()=>fondo.remove());
+    fondo.addEventListener("click",(e)=>{ if(e.target===fondo) fondo.remove(); });
+    fondo.querySelector("#form-nuevo-cliente").addEventListener("submit",(e)=>{
+      e.preventDefault();
+      const f = new FormData(e.target);
+      db.clientes.push({
+        id: idNuevo(db.clientes),
+        nombre: f.get("nombre").trim(),
+        direccion: f.get("direccion").trim(),
+        telefono: f.get("telefono").trim(),
+        bidones: Number(f.get("bidones"))||1,
+        dia: estado.diaSeleccionado,
+        estado: "pendiente",
+        notas: f.get("notas").trim()
+      });
+      guardarDB(db);
+      fondo.remove();
+      render();
+      mostrarToast("Cliente agregado");
+    });
+  }
+
+  /* ---------------- PERFIL ---------------- */
+  function vistaPerfil(u){
+    return `
+      <div class="titulo-panel">
+        <div><h2>Mi perfil</h2><p>Tus datos como usuario del sistema.</p></div>
+      </div>
+      <div class="tarjeta-perfil">
+        <div class="avatar-grande">${iniciales(u.nombre)}</div>
+        <span class="pill ${u.rol==="admin"?"pill-admin":"pill-vendedor"}">${u.rol==="admin"?"Administrador":"Vendedor"}</span>
+        <form id="form-perfil" class="grid-form">
+          <div class="campo"><label>Usuario</label><input value="${u.usuario}" disabled></div>
+          <div class="campo"><label>Nombre completo</label><input name="nombre" value="${u.nombre}" required></div>
+          <div class="campo"><label>Email</label><input name="email" type="email" value="${u.email}" required></div>
+          <div class="campo"><label>Teléfono</label><input name="telefono" value="${u.telefono}"></div>
+          <div class="campo"><label>Nueva contraseña (opcional)</label><input name="clave" type="password" placeholder="Dejar en blanco para no cambiarla"></div>
+          <div><button type="submit" class="btn-primario">Guardar cambios</button></div>
+        </form>
+      </div>
+    `;
+  }
+  function enlazarPerfil(){
+    document.getElementById("form-perfil").addEventListener("submit",(e)=>{
+      e.preventDefault();
+      const f = new FormData(e.target);
+      const u = usuarioActual();
+      u.nombre = f.get("nombre").trim();
+      u.email = f.get("email").trim();
+      u.telefono = f.get("telefono").trim();
+      const nuevaClave = f.get("clave");
+      if(nuevaClave) u.clave = nuevaClave;
+      guardarDB(db);
+      render();
+      mostrarToast("Perfil actualizado");
+    });
+  }
+
+  /* ---------------- USUARIOS (solo admin) ---------------- */
+  function vistaUsuarios(){
+    const tarjetas = db.usuarios.map(u=>`
+      <div class="card-usuario">
+        <div class="info">
+          <h3>${u.nombre} <span class="${u.rol==="admin"?"badge-admin":"badge-vendedor"}">${u.rol==="admin"?"ADMIN":"VENDEDOR"}</span></h3>
+          <div class="linea-usuario">usuario: ${u.usuario}</div>
+          <div class="linea-extra">${u.email}${u.telefono ? " · "+u.telefono : ""}</div>
+        </div>
+        <div class="iconos">
+          <button class="icono-btn" data-ver="${u.id}" title="Ver detalle">👁</button>
+          <button class="icono-btn" data-editar="${u.id}" title="Editar">✏️</button>
+          ${u.id!==usuarioActual().id ? `<button class="icono-btn peligro" data-eliminar="${u.id}" title="Eliminar">🗑</button>` : ""}
+        </div>
+      </div>
+    `).join("");
+    return `
+      <div class="titulo-panel">
+        <div><h2>Usuarios del sistema</h2><p>Como administrador principal podés dar de alta, editar o quitar vendedores.</p></div>
+      </div>
+      <div class="usuarios-header">
+        <div class="conteo">${db.usuarios.length} usuario${db.usuarios.length===1?"":"s"}</div>
+        <button class="btn-agregar-usuario" id="btn-nuevo-usuario">+ Agregar usuario</button>
+      </div>
+      <div class="lista-usuarios-cards">${tarjetas}</div>
+    `;
+  }
+  function enlazarUsuarios(){
+    document.getElementById("btn-nuevo-usuario").addEventListener("click", ()=>abrirModalUsuario(null));
+    document.querySelectorAll("[data-ver]").forEach(b=>b.addEventListener("click", ()=>{
+      const u = db.usuarios.find(x=>x.id==b.dataset.ver);
+      abrirModalVerUsuario(u);
+    }));
+    document.querySelectorAll("[data-editar]").forEach(b=>b.addEventListener("click", ()=>{
+      const u = db.usuarios.find(x=>x.id==b.dataset.editar);
+      abrirModalUsuario(u);
+    }));
+    document.querySelectorAll("[data-eliminar]").forEach(b=>b.addEventListener("click", ()=>{
+      const u = db.usuarios.find(x=>x.id==b.dataset.eliminar);
+      const admins = db.usuarios.filter(x=>x.rol==="admin").length;
+      if(u.rol==="admin" && admins<=1){
+        alert("No se puede eliminar al único administrador.");
+        return;
+      }
+      if(!confirm(`¿Eliminar al usuario "${u.nombre}"?`)) return;
+      db.usuarios = db.usuarios.filter(x=>x.id!=b.dataset.eliminar);
+      guardarDB(db);
+      render();
+    }));
+  }
+  function abrirModalVerUsuario(u){
+    const fondo = document.createElement("div");
+    fondo.className="fondo-modal";
+    fondo.innerHTML = `
+      <div class="modal">
+        <h3>${u.nombre}</h3>
+        <span class="${u.rol==="admin"?"badge-admin":"badge-vendedor"}">${u.rol==="admin"?"ADMIN":"VENDEDOR"}</span>
+        <div class="grid-form">
+          <div class="campo"><label>Usuario</label><input value="${u.usuario}" disabled></div>
+          <div class="campo"><label>Email</label><input value="${u.email}" disabled></div>
+          <div class="campo"><label>Teléfono</label><input value="${u.telefono||"—"}" disabled></div>
+        </div>
+        <div class="fila-botones">
+          <button type="button" class="btn-secundario" id="cerrar-modal-ver">Cerrar</button>
+        </div>
+      </div>`;
+    document.body.appendChild(fondo);
+    fondo.querySelector("#cerrar-modal-ver").addEventListener("click", ()=>fondo.remove());
+    fondo.addEventListener("click",(e)=>{ if(e.target===fondo) fondo.remove(); });
+  }
+  function abrirModalUsuario(usuarioExistente){
+    const editando = !!usuarioExistente;
+    const fondo = document.createElement("div");
+    fondo.className="fondo-modal";
+    fondo.innerHTML = `
+      <div class="modal">
+        <h3>${editando ? "Editar usuario" : "Nuevo usuario"}</h3>
+        <form id="form-usuario">
+          <div class="campo"><label>Nombre completo</label><input name="nombre" value="${editando?usuarioExistente.nombre:""}" required></div>
+          <div class="modal-2col">
+            <div class="campo"><label>Usuario</label><input name="usuario" value="${editando?usuarioExistente.usuario:""}" required ${editando?"":""}></div>
+            <div class="campo"><label>Rol</label>
+              <select name="rol">
+                <option value="vendedor" ${editando && usuarioExistente.rol==="vendedor" ? "selected":""}>Vendedor</option>
+                <option value="admin" ${editando && usuarioExistente.rol==="admin" ? "selected":""}>Administrador</option>
+              </select>
+            </div>
+          </div>
+          <div class="campo"><label>Email</label><input name="email" type="email" value="${editando?usuarioExistente.email:""}" required></div>
+          <div class="campo"><label>Teléfono</label><input name="telefono" value="${editando?usuarioExistente.telefono:""}"></div>
+          <div class="campo"><label>${editando?"Nueva contraseña (opcional)":"Contraseña"}</label><input name="clave" type="password" ${editando?"":"required"}></div>
+          <div class="fila-botones">
+            <button type="button" class="btn-secundario" id="cancelar-modal-usuario">Cancelar</button>
+            <button type="submit" class="btn-primario">${editando?"Guardar cambios":"Crear usuario"}</button>
+          </div>
+        </form>
+      </div>`;
+    document.body.appendChild(fondo);
+    fondo.querySelector("#cancelar-modal-usuario").addEventListener("click", ()=>fondo.remove());
+    fondo.addEventListener("click",(e)=>{ if(e.target===fondo) fondo.remove(); });
+    fondo.querySelector("#form-usuario").addEventListener("submit",(e)=>{
+      e.preventDefault();
+      const f = new FormData(e.target);
+      const nombreUsuario = f.get("usuario").trim();
+      const duplicado = db.usuarios.find(x=>x.usuario.toLowerCase()===nombreUsuario.toLowerCase() && (!editando || x.id!==usuarioExistente.id));
+      if(duplicado){
+        alert("Ya existe un usuario con ese nombre de usuario.");
+        return;
+      }
+      if(editando){
+        usuarioExistente.nombre = f.get("nombre").trim();
+        usuarioExistente.usuario = nombreUsuario;
+        usuarioExistente.rol = f.get("rol");
+        usuarioExistente.email = f.get("email").trim();
+        usuarioExistente.telefono = f.get("telefono").trim();
+        const nuevaClave = f.get("clave");
+        if(nuevaClave) usuarioExistente.clave = nuevaClave;
+      } else {
+        db.usuarios.push({
+          id: idNuevo(db.usuarios),
+          usuario: nombreUsuario,
+          clave: f.get("clave"),
+          nombre: f.get("nombre").trim(),
+          email: f.get("email").trim(),
+          telefono: f.get("telefono").trim(),
+          rol: f.get("rol")
+        });
+      }
+      guardarDB(db);
+      fondo.remove();
+      render();
+      mostrarToast(editando ? "Usuario actualizado" : "Usuario creado");
+    });
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>
