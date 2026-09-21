@@ -277,22 +277,23 @@
   .grid-form .campo label{font-size:0.8rem;font-weight:700;color:var(--texto-suave);}
 
   /* ---------- Usuarios (admin) ---------- */
-  .usuarios-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:18px;}
-  .usuarios-header .conteo{font-size:1.05rem;font-weight:700;color:var(--texto);}
-  .btn-agregar-usuario{background:#1fa855;color:#fff;padding:12px 22px;border-radius:12px;font-weight:700;font-size:0.92rem;}
-  .btn-agregar-usuario:hover{background:#178a45;}
-  .lista-usuarios-cards{display:flex;flex-direction:column;gap:14px;}
-  .card-usuario{
+  .usuarios-header, .fila-encabezado{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:18px;}
+  .usuarios-header .conteo, .fila-encabezado .conteo{font-size:1.05rem;font-weight:700;color:var(--texto);}
+  .btn-agregar-usuario, .btn-agregar{background:#1fa855;color:#fff;padding:12px 22px;border-radius:12px;font-weight:700;font-size:0.92rem;}
+  .btn-agregar-usuario:hover, .btn-agregar:hover{background:#178a45;}
+  .lista-usuarios-cards, .lista-cards{display:flex;flex-direction:column;gap:14px;}
+  .card-usuario, .card-cliente{
     background:#fff;border-radius:16px;box-shadow:var(--sombra);
     padding:18px 20px;display:flex;justify-content:space-between;align-items:center;gap:14px;
     flex-wrap:wrap;
   }
-  .card-usuario .info h3{margin:0 0 6px;font-size:1.05rem;display:flex;align-items:center;gap:8px;color:var(--texto);}
+  .card-usuario .info h3, .card-cliente .info h3{margin:0 0 6px;font-size:1.05rem;display:flex;align-items:center;gap:8px;flex-wrap:wrap;color:var(--texto);}
   .badge-admin{background:#e6413a;color:#fff;font-size:0.66rem;font-weight:800;padding:3px 10px;border-radius:999px;letter-spacing:.03em;}
   .badge-vendedor{background:var(--azul-100);color:var(--azul-900);font-size:0.66rem;font-weight:800;padding:3px 10px;border-radius:999px;letter-spacing:.03em;}
-  .card-usuario .info .linea-usuario{color:var(--texto-suave);font-size:0.85rem;}
-  .card-usuario .info .linea-extra{color:var(--azul-500);font-size:0.82rem;margin-top:2px;}
-  .card-usuario .iconos{display:flex;gap:8px;}
+  .pill-dia{background:var(--azul-100);color:var(--azul-900);font-size:0.66rem;font-weight:800;padding:3px 10px;border-radius:999px;letter-spacing:.03em;text-transform:uppercase;}
+  .card-usuario .info .linea-usuario, .card-cliente .info .linea-direccion{color:var(--texto-suave);font-size:0.85rem;display:flex;align-items:center;gap:6px;}
+  .card-usuario .info .linea-extra, .card-cliente .info .linea-extra{color:var(--azul-500);font-size:0.82rem;margin-top:2px;}
+  .card-usuario .iconos, .card-cliente .iconos{display:flex;gap:8px;}
   .icono-btn{
     width:38px;height:38px;border-radius:10px;background:var(--azul-100);
     display:flex;align-items:center;justify-content:center;font-size:1rem;
@@ -380,10 +381,13 @@
   ========================================================================= */
   let estado = {
     usuarioId: null,       // id del usuario logueado
-    vista: "login",        // login | dias | clientesDia | perfil | usuarios
+    vista: "login",        // login | dias | clientesDia | clientes | perfil | usuarios
     diaSeleccionado: null,
     filtroTexto: "",
-    filtroEstado: "todos"
+    filtroEstado: "todos",
+    filtroClientesTexto: "",
+    filtroClientesDia: "todos",
+    filtroClientesEstado: "todos"
   };
 
   function usuarioActual(){
@@ -415,6 +419,7 @@
     let contenido = "";
     if(estado.vista==="dias") contenido = vistaDias();
     else if(estado.vista==="clientesDia") contenido = vistaClientesDia();
+    else if(estado.vista==="clientes") contenido = vistaClientes();
     else if(estado.vista==="perfil") contenido = vistaPerfil(u);
     else if(estado.vista==="usuarios") contenido = vistaUsuarios();
     else contenido = vistaDias();
@@ -426,6 +431,7 @@
     enlazarComun();
     if(estado.vista==="dias") enlazarDias();
     if(estado.vista==="clientesDia") enlazarClientesDia();
+    if(estado.vista==="clientes") enlazarClientes();
     if(estado.vista==="perfil") enlazarPerfil();
     if(estado.vista==="usuarios") enlazarUsuarios();
   }
@@ -486,6 +492,7 @@
       <div class="marca"><span class="gota">💧</span> AguaGestión</div>
       <nav class="tabs">
         <button data-nav="dias" class="${estado.vista==="dias"||estado.vista==="clientesDia" ? "activo":""}">Días de reparto</button>
+        <button data-nav="clientes" class="${estado.vista==="clientes" ? "activo":""}">Clientes</button>
         <button data-nav="perfil" class="${estado.vista==="perfil" ? "activo":""}">Mi perfil</button>
         ${esAdmin ? `<button data-nav="usuarios" class="${estado.vista==="usuarios" ? "activo":""}">Usuarios</button>` : ""}
       </nav>
@@ -596,6 +603,7 @@
             ? `<button class="btn-secundario" data-accion="pendiente" data-id="${c.id}">Marcar pendiente</button>`
             : `<button class="btn-ok" data-accion="entregar" data-id="${c.id}">✔ Marcar entregado</button>`
           }
+          <button class="btn-secundario" data-accion="editar-cliente" data-id="${c.id}">Editar</button>
           <button class="btn-peligro" data-accion="eliminar-cliente" data-id="${c.id}">Quitar</button>
         </div>
       </div>
@@ -659,6 +667,10 @@
       guardarDB(db);
       render();
     }));
+    document.querySelectorAll("[data-accion='editar-cliente']").forEach(b=>b.addEventListener("click", ()=>{
+      const c = db.clientes.find(x=>x.id==b.dataset.id);
+      abrirModalCliente(c);
+    }));
     document.querySelectorAll("[data-accion='eliminar-cliente']").forEach(b=>b.addEventListener("click", ()=>{
       const c = db.clientes.find(x=>x.id==b.dataset.id);
       if(!confirm(`¿Quitar a "${c.nombre}" del listado de ${NOMBRE_DIA[estado.diaSeleccionado]}?`)) return;
@@ -666,49 +678,156 @@
       guardarDB(db);
       render();
     }));
-    document.getElementById("btn-nuevo-cliente").addEventListener("click", abrirModalNuevoCliente);
+    document.getElementById("btn-nuevo-cliente").addEventListener("click", ()=>abrirModalCliente(null, estado.diaSeleccionado));
   }
 
-  function abrirModalNuevoCliente(){
+  /* ---------------- PANEL "CLIENTES" (listado maestro) ---------------- */
+  function clientesFiltradosMaestro(){
+    const dia = estado.filtroClientesDia;
+    const texto = estado.filtroClientesTexto.toLowerCase();
+    const est = estado.filtroClientesEstado;
+    return db.clientes.filter(c=>{
+      if(dia!=="todos" && c.dia!==dia) return false;
+      if(est!=="todos" && c.estado!==est) return false;
+      if(texto && !(c.nombre.toLowerCase().includes(texto) || c.direccion.toLowerCase().includes(texto))) return false;
+      return true;
+    }).sort((a,b)=>a.nombre.localeCompare(b.nombre));
+  }
+  function vistaClientes(){
+    const lista = clientesFiltradosMaestro();
+    const opcionesDia = DIAS.map(d=>`<option value="${d}" ${estado.filtroClientesDia===d?"selected":""}>${NOMBRE_DIA[d]}</option>`).join("");
+
+    const tarjetas = lista.map(c=>`
+      <div class="card-cliente">
+        <div class="info">
+          <h3>
+            ${c.nombre}
+            <span class="pill-dia">${NOMBRE_DIA[c.dia]}</span>
+            <span class="pill ${c.estado==="entregado" ? "pill-entregado":"pill-pendiente"}">${c.estado==="entregado" ? "Entregado":"Pendiente"}</span>
+          </h3>
+          <div class="linea-direccion">📍 ${c.direccion}</div>
+          <div class="linea-extra">🚰 ${c.bidones} bidón${c.bidones==1?"":"es"} · 📞 ${c.telefono||"sin teléfono"}</div>
+        </div>
+        <div class="iconos">
+          <button class="icono-btn" data-editar-cliente="${c.id}" title="Editar">✏️</button>
+          <button class="icono-btn peligro" data-eliminar-cliente="${c.id}" title="Eliminar">🗑</button>
+        </div>
+      </div>
+    `).join("");
+
+    return `
+      <div class="titulo-panel">
+        <div>
+          <h2>Clientes</h2>
+          <p>Listado completo de tus clientes de reparto, con el día de visita asignado a cada uno.</p>
+        </div>
+      </div>
+      <div class="fila-encabezado">
+        <div class="conteo">${db.clientes.length} cliente${db.clientes.length===1?"":"s"}</div>
+        <button class="btn-agregar" id="btn-nuevo-cliente-maestro">+ Agregar cliente</button>
+      </div>
+      <div class="barra-filtros">
+        <input type="search" id="filtro-clientes-texto" placeholder="Buscar por nombre o dirección..." value="${estado.filtroClientesTexto}">
+        <select id="filtro-clientes-dia">
+          <option value="todos" ${estado.filtroClientesDia==="todos"?"selected":""}>Todos los días</option>
+          ${opcionesDia}
+        </select>
+        <select id="filtro-clientes-estado">
+          <option value="todos" ${estado.filtroClientesEstado==="todos"?"selected":""}>Todos los estados</option>
+          <option value="pendiente" ${estado.filtroClientesEstado==="pendiente"?"selected":""}>Pendientes</option>
+          <option value="entregado" ${estado.filtroClientesEstado==="entregado"?"selected":""}>Entregados</option>
+        </select>
+      </div>
+      ${lista.length
+        ? `<div class="lista-cards">${tarjetas}</div>`
+        : `<div class="vacio">No hay clientes que coincidan con el filtro.</div>`}
+    `;
+  }
+  function enlazarClientes(){
+    document.getElementById("filtro-clientes-texto").addEventListener("input", (e)=>{
+      estado.filtroClientesTexto = e.target.value;
+      render();
+      const val = document.getElementById("filtro-clientes-texto");
+      val.focus();
+      val.selectionStart = val.selectionEnd = val.value.length;
+    });
+    document.getElementById("filtro-clientes-dia").addEventListener("change", (e)=>{
+      estado.filtroClientesDia = e.target.value;
+      render();
+    });
+    document.getElementById("filtro-clientes-estado").addEventListener("change", (e)=>{
+      estado.filtroClientesEstado = e.target.value;
+      render();
+    });
+    document.getElementById("btn-nuevo-cliente-maestro").addEventListener("click", ()=>abrirModalCliente(null));
+    document.querySelectorAll("[data-editar-cliente]").forEach(b=>b.addEventListener("click", ()=>{
+      const c = db.clientes.find(x=>x.id==b.dataset.editarCliente);
+      abrirModalCliente(c);
+    }));
+    document.querySelectorAll("[data-eliminar-cliente]").forEach(b=>b.addEventListener("click", ()=>{
+      const c = db.clientes.find(x=>x.id==b.dataset.eliminarCliente);
+      if(!confirm(`¿Eliminar a "${c.nombre}" del listado de clientes?`)) return;
+      db.clientes = db.clientes.filter(x=>x.id!=b.dataset.eliminarCliente);
+      guardarDB(db);
+      render();
+      mostrarToast("Cliente eliminado");
+    }));
+  }
+
+  /* Modal compartido para crear o editar un cliente (desde "Clientes" o desde un día puntual) */
+  function abrirModalCliente(clienteExistente, diaPorDefecto){
+    const editando = !!clienteExistente;
+    const diaInicial = editando ? clienteExistente.dia : (diaPorDefecto || DIAS[0]);
+    const opcionesDia = DIAS.map(d=>`<option value="${d}" ${diaInicial===d?"selected":""}>${NOMBRE_DIA[d]}</option>`).join("");
     const fondo = document.createElement("div");
     fondo.className="fondo-modal";
     fondo.innerHTML = `
       <div class="modal">
-        <h3>Nuevo cliente — ${NOMBRE_DIA[estado.diaSeleccionado]}</h3>
-        <form id="form-nuevo-cliente">
-          <div class="campo"><label>Nombre del cliente</label><input name="nombre" required></div>
-          <div class="campo"><label>Dirección</label><input name="direccion" required></div>
+        <h3>${editando ? "Editar cliente" : "Nuevo cliente"}</h3>
+        <form id="form-cliente">
+          <div class="campo"><label>Nombre del cliente</label><input name="nombre" value="${editando?clienteExistente.nombre:""}" placeholder="Ej: Almacén Don Pedro" required></div>
+          <div class="campo"><label>Dirección</label><input name="direccion" value="${editando?clienteExistente.direccion:""}" required></div>
           <div class="modal-2col">
-            <div class="campo"><label>Teléfono</label><input name="telefono"></div>
-            <div class="campo"><label>Bidones</label><input name="bidones" type="number" min="1" value="1" required></div>
+            <div class="campo"><label>Teléfono</label><input name="telefono" value="${editando?clienteExistente.telefono:""}"></div>
+            <div class="campo"><label>Bidones</label><input name="bidones" type="number" min="1" value="${editando?clienteExistente.bidones:1}" required></div>
           </div>
-          <div class="campo"><label>Notas (opcional)</label><input name="notas" placeholder="Ej: dejar en portería"></div>
+          <div class="campo"><label>Día de visita</label><select name="dia">${opcionesDia}</select></div>
+          <div class="campo"><label>Notas (opcional)</label><input name="notas" value="${editando?(clienteExistente.notas||""):""}" placeholder="Ej: dejar en portería"></div>
           <div class="fila-botones">
-            <button type="button" class="btn-secundario" id="cancelar-modal">Cancelar</button>
-            <button type="submit" class="btn-primario">Guardar cliente</button>
+            <button type="button" class="btn-secundario" id="cancelar-modal-cliente">Cancelar</button>
+            <button type="submit" class="btn-primario">${editando?"Guardar cambios":"Guardar cliente"}</button>
           </div>
         </form>
       </div>`;
     document.body.appendChild(fondo);
-    fondo.querySelector("#cancelar-modal").addEventListener("click", ()=>fondo.remove());
+    fondo.querySelector("#cancelar-modal-cliente").addEventListener("click", ()=>fondo.remove());
     fondo.addEventListener("click",(e)=>{ if(e.target===fondo) fondo.remove(); });
-    fondo.querySelector("#form-nuevo-cliente").addEventListener("submit",(e)=>{
+    fondo.querySelector("#form-cliente").addEventListener("submit",(e)=>{
       e.preventDefault();
       const f = new FormData(e.target);
-      db.clientes.push({
-        id: idNuevo(db.clientes),
-        nombre: f.get("nombre").trim(),
-        direccion: f.get("direccion").trim(),
-        telefono: f.get("telefono").trim(),
-        bidones: Number(f.get("bidones"))||1,
-        dia: estado.diaSeleccionado,
-        estado: "pendiente",
-        notas: f.get("notas").trim()
-      });
+      if(editando){
+        clienteExistente.nombre = f.get("nombre").trim();
+        clienteExistente.direccion = f.get("direccion").trim();
+        clienteExistente.telefono = f.get("telefono").trim();
+        clienteExistente.bidones = Number(f.get("bidones"))||1;
+        clienteExistente.dia = f.get("dia");
+        clienteExistente.notas = f.get("notas").trim();
+      } else {
+        db.clientes.push({
+          id: idNuevo(db.clientes),
+          nombre: f.get("nombre").trim(),
+          direccion: f.get("direccion").trim(),
+          telefono: f.get("telefono").trim(),
+          bidones: Number(f.get("bidones"))||1,
+          dia: f.get("dia"),
+          estado: "pendiente",
+          notas: f.get("notas").trim()
+        });
+      }
       guardarDB(db);
       fondo.remove();
       render();
-      mostrarToast("Cliente agregado");
+      mostrarToast(editando ? "Cliente actualizado" : "Cliente agregado");
     });
   }
 
