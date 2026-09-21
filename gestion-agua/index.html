@@ -181,16 +181,6 @@
   .titulo-panel h2{margin:0;font-size:1.4rem;color:var(--azul-900);}
   .titulo-panel p{margin:4px 0 0;color:var(--texto-suave);font-size:0.9rem;}
 
-  .aviso-simulacion{
-    background:var(--azul-100);
-    border:1px dashed var(--azul-300);
-    color:var(--azul-900);
-    padding:10px 14px;
-    border-radius:10px;
-    font-size:0.8rem;
-    margin-bottom:20px;
-  }
-
   /* ---------- Días de la semana ---------- */
   .grid-dias{
     display:grid;
@@ -553,7 +543,6 @@
           <p>Elegí un día para ver el listado de clientes a visitar.</p>
         </div>
       </div>
-      <div class="aviso-simulacion">🧪 Demo sin backend: los clientes están simulados en el navegador (equivalen a filas de una tabla <code>clientes</code> en PostgreSQL, con columna <code>dia_visita</code>).</div>
       <div class="grid-dias">${tarjetas}</div>
     `;
   }
