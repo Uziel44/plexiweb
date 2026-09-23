@@ -3,8 +3,13 @@
 html { scroll-behavior: smooth; }
 
 :root {
-  --accent: oklch(0.62 0.19 300);
-  --accent-soft: oklch(0.62 0.19 300 / 0.1);
+  /* antes oklch(0.62 0.19 300) — violeta. Mismo verde botella que
+     plexipedidos (#1f4a38), pasado a oklch para no romper el resto
+     del sistema de color de este proyecto. */
+  --accent: oklch(0.37 0.06 164);
+  --accent-soft: oklch(0.37 0.06 164 / 0.1);
+  /* segundo acento, mismo dorado que plexipedidos (#d4a24c) */
+  --gold: oklch(0.74 0.12 79);
   --bg: oklch(0.98 0.006 60);
   --bg-alt: oklch(0.95 0.01 60);
   --ink: #1a1a1a;
@@ -60,7 +65,7 @@ img { max-width: 100%; display: block; }
   background: var(--accent);
   color: #fff;
 }
-.btn-primary:hover { box-shadow: 0 8px 20px oklch(0.62 0.19 300 / 0.35); }
+.btn-primary:hover { box-shadow: 0 8px 20px oklch(0.37 0.06 164 / 0.35); }
 
 .btn-secondary {
   border: 1px solid var(--border-soft);
@@ -232,7 +237,7 @@ img { max-width: 100%; display: block; }
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--accent), oklch(0.62 0.19 260));
+  background: linear-gradient(135deg, var(--accent), var(--gold));
   color: #fff;
   font-family: var(--font-display);
   font-weight: 700;
