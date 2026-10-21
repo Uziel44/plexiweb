@@ -191,11 +191,25 @@ function initMobileNav() {
  * Agregar un ".portfolio-card" nuevo en el HTML alcanza, no hace falta tocar JS.
  */
 function initPortfolioCarousel() {
-  const cols = document.querySelectorAll('[data-portfolio-col]');
+  let cols = Array.from(document.querySelectorAll('[data-portfolio-col]'));
   if (!cols.length) return;
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReducedMotion) return;
+
+  // En mobile el CSS sólo muestra la primera columna (ver .portfolio-col
+  // media queries) para que el gesto siga siendo "una columna que se mueve
+  // sola". Pero eso dejaba 5 de las 8 webs sin forma de verse, porque
+  // quedaban encerradas en las columnas 2 y 3, ocultas. Acá, antes de armar
+  // el loop, se mueven esas cards dentro de la primera columna para que las
+  // 8 queden ahí y sean alcanzables con el scroll manual de esa columna.
+  if (window.matchMedia('(max-width: 520px)').matches && cols.length > 1) {
+    const [firstCol, ...restCols] = cols;
+    restCols.forEach((col) => {
+      Array.from(col.children).forEach((card) => firstCol.appendChild(card));
+    });
+    cols = [firstCol];
+  }
 
   cols.forEach((col) => {
     const cards = Array.from(col.children);
@@ -208,6 +222,28 @@ function initPortfolioCarousel() {
       clone.setAttribute('tabindex', '-1');
       col.appendChild(clone);
     });
+
+    const parentCol = col.parentElement;
+
+    // En mobile la columna también es scrolleable a mano (ver CSS,
+    // overflow-y: auto en ese breakpoint). El pausado ahí NO puede depender
+    // de :hover/:focus-within: en touch un tap deja el :hover "pegado" hasta
+    // el próximo toque en otro elemento, y el carrusel queda frenado para
+    // siempre. Por eso se controla con una clase + temporizador de
+    // reanudación, igual de simple pero sin ese problema.
+    const RESUME_DELAY = 2000;
+    let resumeTimer;
+
+    const pause = () => {
+      col.classList.add('is-paused');
+      clearTimeout(resumeTimer);
+      resumeTimer = setTimeout(() => col.classList.remove('is-paused'), RESUME_DELAY);
+    };
+
+    ['touchstart', 'pointerdown', 'wheel'].forEach((evt) => {
+      parentCol.addEventListener(evt, pause, { passive: true });
+    });
+    parentCol.addEventListener('scroll', pause, { passive: true });
   });
 }
 

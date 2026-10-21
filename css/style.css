@@ -211,7 +211,8 @@ img { max-width: 100%; display: block; }
 }
 
 .portfolio-col-track:hover,
-.portfolio-col-track:focus-within {
+.portfolio-col-track:focus-within,
+.portfolio-col-track.is-paused {
   animation-play-state: paused;
 }
 
@@ -264,6 +265,13 @@ img { max-width: 100%; display: block; }
   .portfolio { padding: 20px 20px 50px; }
   .portfolio-columns { grid-template-columns: 1fr; height: 460px; }
   .portfolio-col:nth-child(2) { display: none; }
+
+  /* En mobile, además del scroll automático, se puede recorrer la columna
+     a mano (hay más webs de las que entran en el alto visible). */
+  .portfolio-col {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 /* ---------- Proceso ---------- */
