@@ -86,99 +86,98 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <main id="top">
 
-    <section class="hero">
-      <h1 class="hero-title">Webs que generan crecimiento</h1>
-      <p class="hero-subtitle">Landing pages con una estrategia muy clara.</p>
+    <section class="hero" data-reveal-group="up">
+      <h1 class="hero-title" data-reveal>Webs que generan crecimiento</h1>
+      <p class="hero-subtitle" data-reveal>Landing pages con una estrategia muy clara.</p>
 
-      <ol class="hero-steps">
+      <ol class="hero-steps" data-reveal>
         <li>1. Que al cliente le atraiga tu producto</li>
         <li>2. Generar confianza</li>
         <li><strong>3. Y se contacte con vos</strong></li>
       </ol>
 
-      <p class="hero-question">¿En la era de la inteligencia artificial vas a subir al tren o vas a quedarte mirando cómo pasa?</p>
+      <p class="hero-question" data-reveal>¿En la era de la inteligencia artificial vas a subir al tren o vas a quedarte mirando cómo pasa?</p>
 
-      <div class="hero-actions">
+      <div class="hero-actions" data-reveal>
         <a href="https://wa.me/5493517732496?text=Hola%2C%20quiero%20coordinar%20una%20reunion" class="btn btn-primary">Contactanos</a>
         <a href="#pricing" class="btn btn-secondary"><i class="bi bi-play-circle-fill"></i>Ver precios</a>
       </div>
     </section>
 
     <section class="portfolio" id="portfolio">
-      <h2 class="section-title">Nuestro Portfolio</h2>
+      <h2 class="section-title" data-reveal>Nuestro Portfolio</h2>
 
-      <div class="carousel-wrap">
-        <button class="carousel-arrow carousel-arrow-left" id="carousel-prev" aria-label="Anterior">
-          <i class="bi bi-chevron-left"></i>
-        </button>
-        <button class="carousel-arrow carousel-arrow-right" id="carousel-next" aria-label="Siguiente">
-          <i class="bi bi-chevron-right"></i>
-        </button>
+      <!-- 3 columnas verticales con scroll automático (2 suben, 1 baja).
+           Para sumar un proyecto nuevo: agregá otra <a class="portfolio-card">
+           en cualquier columna, el JS duplica el contenido para el loop solo. -->
+      <div class="portfolio-columns">
+        <div class="portfolio-col">
+          <div class="portfolio-col-track portfolio-col-track-up" data-portfolio-col>
+            <a href="https://clubandinovcp.pages.dev/" class="portfolio-card">
+              <img src="04.jpeg" alt="Club Andino VCP" loading="lazy">
+              <div class="portfolio-name">Club Andino VCP</div>
+              <div class="portfolio-desc">Club de escalada y trekking</div>
+            </a>
+            <a href="https://uziel44.github.io/plexigestion" class="portfolio-card">
+              <img src="assets/home/gest.png" alt="Plexi Gestión" loading="lazy">
+              <div class="portfolio-name">Plexi Gestión</div>
+              <div class="portfolio-desc">Asesoramiento de administración</div>
+            </a>
+            <a href="https://rincondenina.pages.dev/" class="portfolio-card">
+              <img src="assets/home/rincondenina.jpg" alt="Rincón de Nina" loading="lazy">
+              <div class="portfolio-name">Rincón de Nina</div>
+              <div class="portfolio-desc">Alojamiento en Tanti, Córdoba</div>
+            </a>
+          </div>
+        </div>
 
-        <!-- Para sumar un proyecto nuevo: agregá otra <a class="portfolio-card"> igual a las de abajo,
-             en cualquier posición antes de la tarjeta "Próximo proyecto". El carrusel (flechas + dots)
-             se recalcula solo, no hace falta tocar el CSS ni el JS. -->
-        <div class="carousel-track no-scrollbar" id="portfolio-track">
-          
-          
-          <a href="https://clubandinovcp.pages.dev/" class="portfolio-card">
-            <img src="04.jpeg" alt="Club Andino VCP" loading="lazy">
-            <div class="portfolio-name">Club Andino VCP</div>
-            <div class="portfolio-desc">Club de escalada y trekking</div>
-          </a>
-          <a href="https://electrotest.com.ar" class="portfolio-card">
-            <img src="assets/home/elec.png" alt="Electrotest">
-            <div class="portfolio-name">Electrotest</div>
-            <div class="portfolio-desc">Mantenimiento eléctrico alta tensión</div>
-          </a>
-          
-          <a href="https://uziel44.github.io/miyendj" class="portfolio-card">
-            <img src="assets/home/miy.png" alt="M I Y E N dj" loading="lazy">
-            <div class="portfolio-name">M I Y E N dj</div>
-            <div class="portfolio-desc">Entretenimiento y shows</div>
-          </a>
-          <a href="https://uziel44.github.io/plexigestion" class="portfolio-card">
-            <img src="assets/home/gest.png" alt="Plexi Gestión" loading="lazy">
-            <div class="portfolio-name">Plexi Gestión</div>
-            <div class="portfolio-desc">Asesoramiento de administración</div>
-          </a>
-          <a href="https://uziel44.github.io/ilhagrande" class="portfolio-card">
-            <img src="assets/home/ilha.png" alt="Ilha Grande" loading="lazy">
-            <div class="portfolio-name">Ilha Grande</div>
-            <div class="portfolio-desc">Ecoturismo aventura</div>
-          </a>
-          <a href="https://uziel44.github.io/datovivo" class="portfolio-card">
-            <img src="assets/home/dato.png" alt="Datovivo" loading="lazy">
-            <div class="portfolio-name">Datovivo</div>
-            <div class="portfolio-desc">Blog de análisis estadísticos</div>
-          </a>
-          <a href="https://verax-duediligence.pages.dev/" class="portfolio-card">
-            <img src="assets/home/verax.png" alt="Verax Due Diligence" loading="lazy">
-            <div class="portfolio-name">Verax Due Diligence</div>
-            <div class="portfolio-desc">Investigación y due diligence</div>
-          </a>
-          <a href="https://rincondenina.pages.dev/" class="portfolio-card">
-            <img src="assets/home/rincondenina.jpg" alt="Rincón de Nina" loading="lazy">
-            <div class="portfolio-name">Rincón de Nina</div>
-            <div class="portfolio-desc">Alojamiento en Tanti, Córdoba</div>
-          </a>
+        <div class="portfolio-col">
+          <div class="portfolio-col-track portfolio-col-track-down" data-portfolio-col>
+            <a href="https://electrotest.com.ar" class="portfolio-card">
+              <img src="assets/home/elec.png" alt="Electrotest" loading="lazy">
+              <div class="portfolio-name">Electrotest</div>
+              <div class="portfolio-desc">Mantenimiento eléctrico alta tensión</div>
+            </a>
+            <a href="https://uziel44.github.io/ilhagrande" class="portfolio-card">
+              <img src="assets/home/ilha.png" alt="Ilha Grande" loading="lazy">
+              <div class="portfolio-name">Ilha Grande</div>
+              <div class="portfolio-desc">Ecoturismo aventura</div>
+            </a>
+            <a href="https://verax-duediligence.pages.dev/" class="portfolio-card">
+              <img src="assets/home/verax.png" alt="Verax Due Diligence" loading="lazy">
+              <div class="portfolio-name">Verax Due Diligence</div>
+              <div class="portfolio-desc">Investigación y due diligence</div>
+            </a>
+          </div>
+        </div>
 
+        <div class="portfolio-col">
+          <div class="portfolio-col-track portfolio-col-track-up" data-portfolio-col>
+            <a href="https://uziel44.github.io/miyendj" class="portfolio-card">
+              <img src="assets/home/miy.png" alt="M I Y E N dj" loading="lazy">
+              <div class="portfolio-name">M I Y E N dj</div>
+              <div class="portfolio-desc">Entretenimiento y shows</div>
+            </a>
+            <a href="https://uziel44.github.io/datovivo" class="portfolio-card">
+              <img src="assets/home/dato.png" alt="Datovivo" loading="lazy">
+              <div class="portfolio-name">Datovivo</div>
+              <div class="portfolio-desc">Blog de análisis estadísticos</div>
+            </a>
+          </div>
         </div>
       </div>
-
-      <div class="carousel-dots" id="portfolio-dots"></div>
     </section>
 
     <section class="proceso" id="proceso">
       <div class="proceso-inner">
-        <h2 class="section-title section-title-left">Tu web en 3 simples pasos.</h2>
-        <ol class="proceso-steps">
+        <h2 class="section-title section-title-left" data-reveal>Tu web en 3 simples pasos.</h2>
+        <ol class="proceso-steps" data-reveal data-reveal-delay="0.1">
           <li>1. Estudiamos tu negocio y generamos un primer boceto</li>
           <li>2. Corregimos detalles y dejamos un producto final</li>
           <li>3. Hacemos seguimiento de tu web</li>
         </ol>
 
-        <div class="proceso-extra">
+        <div class="proceso-extra" data-reveal data-reveal-delay="0.2">
           <div class="proceso-extra-title"><i class="bi bi-check-all"></i>Otros productos.</div>
           <p>Potenciamos tus ventas con analítica de datos y desarrollo SEO. Hacemos inteligencia de negocio para que la web sea tu herramienta principal de ventas.</p>
         </div>
@@ -186,10 +185,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </section>
 
     <section class="pricing" id="pricing">
-      <h2 class="section-title">Costo de nuestro servicio</h2>
+      <h2 class="section-title" data-reveal>Costo de nuestro servicio</h2>
 
-      <div class="pricing-grid no-scrollbar">
-        <div class="price-card">
+      <div class="pricing-grid no-scrollbar" data-reveal-group="up">
+        <div class="price-card" data-reveal>
           <div class="price-card-body">
             <p class="price-strike price-strike-hidden">$300usd</p>
             <div class="price-amount">$50.000<span>/mes</span></div>
@@ -198,7 +197,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <a href="https://wa.me/5493517732496?text=Hola%2C%20quiero%20optimizaci%C3%B3n%20SEO" class="btn btn-primary btn-block">Quiero optimización SEO</a>
         </div>
 
-        <div class="price-card price-card-featured">
+        <div class="price-card price-card-featured" data-reveal>
           <div class="price-card-body">
             <p class="price-strike">$300usd</p>
             <div class="price-amount">$150.000</div>
@@ -207,7 +206,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <a href="https://wa.me/5493517732496?text=Hola%2C%20quiero%20una%20landing%20page" class="btn btn-primary btn-block">Quiero mi Landing Page</a>
         </div>
 
-        <div class="price-card">
+        <div class="price-card" data-reveal>
           <div class="price-card-body">
             <p class="price-strike price-strike-hidden">$300usd</p>
             <div class="price-amount price-amount-text">A medida</div>
@@ -219,10 +218,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </section>
 
     <section class="testimonials">
-      <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+      <h2 class="section-title" data-reveal>Lo que dicen nuestros clientes</h2>
 
-      <div class="testimonials-track no-scrollbar">
-        <div class="testimonial-card">
+      <div class="testimonials-track no-scrollbar" data-reveal-group="up">
+        <div class="testimonial-card" data-reveal>
           <div class="stars">
             <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
           </div>
@@ -236,7 +235,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </div>
 
-        <div class="testimonial-card">
+        <div class="testimonial-card" data-reveal>
           <div class="stars">
             <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
           </div>
@@ -250,7 +249,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </div>
 
-        <div class="testimonial-card">
+        <div class="testimonial-card" data-reveal>
           <div class="stars">
             <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
           </div>
@@ -268,7 +267,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <section class="plexipedidos" id="plexipedidos">
       <div class="plexipedidos-inner">
-        <div class="plexipedidos-info">
+        <div class="plexipedidos-info" data-reveal="left">
           <h2 class="section-title section-title-left">Plexipedidos</h2>
           <p class="plexipedidos-subtitle">Bot de pedidos por WhatsApp, más fácil para tu negocio.</p>
           <p class="plexipedidos-desc">Tus clientes arman su pedido desde un catálogo online y lo envían directo a tu WhatsApp. Sin apps, sin instalaciones, sin complicaciones.</p>
@@ -278,7 +277,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </div>
 
-        <div class="plexipedidos-demo">
+        <div class="plexipedidos-demo" data-reveal="right">
           <iframe src="https://tunegocio.plexi.com.ar" title="Demo Plexipedidos" loading="lazy"></iframe>
         </div>
       </div>
@@ -324,6 +323,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
 
-  <script src="js/script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js" defer></script>
+  <script src="js/script.js" defer></script>
 </body>
 </html>
