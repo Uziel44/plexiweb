@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const lenis = initSmoothScroll();
   initMobileNav();
-  initPortfolioCarousel();
   initCookieBanner();
   initRevealAnimations();
   initParallax(lenis);
@@ -115,15 +114,15 @@ function initRevealAnimations() {
 }
 
 /**
- * Parallax sutil en elementos marcados con data-parallax="0.2" (intensidad).
- * Se desactiva en mobile (gasta batería y aporta poco en pantallas chicas)
- * y con movimiento reducido. Si Lenis está activo se engancha a su evento
- * de scroll; si no, usa el scroll nativo.
+ * Parallax en elementos marcados con data-parallax="0.2" (intensidad; negativo
+ * invierte la dirección). Usado por el showcase de portfolio (3 columnas a
+ * distinta velocidad, igual que tiendanube.com) y queda disponible para
+ * cualquier otro elemento. Se desactiva con movimiento reducido. Si Lenis
+ * está activo se engancha a su evento de scroll; si no, usa el scroll nativo.
  * @param {object|null} lenis
  */
 function initParallax(lenis) {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  if (!window.matchMedia('(min-width: 1024px)').matches) return;
 
   const elements = Array.from(document.querySelectorAll('[data-parallax]')).map((el) => ({
     el,
@@ -169,81 +168,26 @@ function initMobileNav() {
   toggle.addEventListener('click', () => {
     const isOpen = header.classList.toggle('is-open');
     toggle.setAttribute('aria-expanded', String(isOpen));
-    toggle.innerHTML = isOpen ? '<i class="bi bi-x-lg"></i>' : '<i class="bi bi-list"></i>';
+    toggle.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
+    toggle.innerHTML = isOpen
+      ? '<i class="bi bi-x-lg" aria-hidden="true"></i>'
+      : '<i class="bi bi-list" aria-hidden="true"></i>';
   });
 
-  nav.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => {
-      header.classList.remove('is-open');
-      toggle.setAttribute('aria-expanded', 'false');
-      toggle.innerHTML = '<i class="bi bi-list"></i>';
-    });
-  });
-}
+  const closeMenu = () => {
+    header.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', 'Abrir menú');
+    toggle.innerHTML = '<i class="bi bi-list" aria-hidden="true"></i>';
+  };
 
-/**
- * Carrusel de portfolio: 3 columnas verticales que se mueven solas (dos hacia
- * arriba, una hacia abajo), igual al patrón de "07 miyen dj". El movimiento
- * es @keyframes + transform (CSS puro, ver .portfolio-col-track en style.css),
- * no scroll — así no hay forma de que choque con scroll-snap ni con el scroll
- * real de la página. Lo único que hace este JS es duplicar las cards de cada
- * columna una vez, para que la animación hasta -50% haga loop sin salto visible.
- * Agregar un ".portfolio-card" nuevo en el HTML alcanza, no hace falta tocar JS.
- */
-function initPortfolioCarousel() {
-  let cols = Array.from(document.querySelectorAll('[data-portfolio-col]'));
-  if (!cols.length) return;
+  nav.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
 
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (prefersReducedMotion) return;
-
-  // En mobile el CSS sólo muestra la primera columna (ver .portfolio-col
-  // media queries) para que el gesto siga siendo "una columna que se mueve
-  // sola". Pero eso dejaba 5 de las 8 webs sin forma de verse, porque
-  // quedaban encerradas en las columnas 2 y 3, ocultas. Acá, antes de armar
-  // el loop, se mueven esas cards dentro de la primera columna para que las
-  // 8 queden ahí y sean alcanzables con el scroll manual de esa columna.
-  if (window.matchMedia('(max-width: 520px)').matches && cols.length > 1) {
-    const [firstCol, ...restCols] = cols;
-    restCols.forEach((col) => {
-      Array.from(col.children).forEach((card) => firstCol.appendChild(card));
-    });
-    cols = [firstCol];
-  }
-
-  cols.forEach((col) => {
-    const cards = Array.from(col.children);
-    cards.forEach((card) => {
-      const clone = card.cloneNode(true);
-      // Los clones son puro relleno visual para el loop del marquee: se
-      // ocultan de lectores de pantalla y se sacan del tab order para no
-      // duplicar cada link de portfolio.
-      clone.setAttribute('aria-hidden', 'true');
-      clone.setAttribute('tabindex', '-1');
-      col.appendChild(clone);
-    });
-
-    const parentCol = col.parentElement;
-
-    // En mobile la columna también es scrolleable a mano (ver CSS,
-    // overflow-y: auto en ese breakpoint). El pausado ahí NO puede depender
-    // de :hover/:focus-within: en touch un tap deja el :hover "pegado" hasta
-    // el próximo toque en otro elemento, y el carrusel queda frenado para
-    // siempre. Por eso se controla con una clase + temporizador de
-    // reanudación, igual de simple pero sin ese problema.
-    const RESUME_DELAY = 2000;
-    let resumeTimer;
-
-    const pause = () => {
-      col.classList.add('is-paused');
-      clearTimeout(resumeTimer);
-      resumeTimer = setTimeout(() => col.classList.remove('is-paused'), RESUME_DELAY);
-    };
-
-    ['touchstart', 'pointerdown', 'wheel'].forEach((evt) => {
-      parentCol.addEventListener(evt, pause, { passive: true });
-    });
-    parentCol.addEventListener('scroll', pause, { passive: true });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && header.classList.contains('is-open')) {
+      closeMenu();
+      toggle.focus();
+    }
   });
 }
 

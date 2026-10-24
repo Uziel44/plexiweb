@@ -30,14 +30,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <meta name="twitter:image" content="assets/02.jpeg" />
 
   <link rel="canonical" href="https://plexiweb.pages.dev/" />
-  <meta name="theme-color" content="#1f4a38" />
+  <meta name="theme-color" content="#0042a2" />
 
   <link rel="icon" type="image/png" href="assets/logo/logo.png" />
   <link rel="apple-touch-icon" href="assets/logo/logo.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@1&display=swap" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" />
 
   <link rel="stylesheet" href="css/style.css" />
@@ -67,10 +67,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M95P8XHG"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
+
+  <a class="skip-link" href="#portfolio">Saltar al contenido</a>
+
   <header class="site-header">
     <a href="#top" class="logo">Plexiweb</a>
 
-    <nav class="main-nav" id="main-nav">
+    <nav class="main-nav" id="main-nav" aria-label="Principal">
       <a href="#pricing">Precios</a>
       <a href="#portfolio">Landing page</a>
       <a href="#proceso">Desarrollo</a>
@@ -80,23 +83,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a href="https://wa.me/5493517732496?text=Hola%2C%20quiero%20coordinar%20una%20reunion" class="btn btn-primary btn-header">Agendar reunión</a>
 
     <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="main-nav">
-      <i class="bi bi-list"></i>
+      <i class="bi bi-list" aria-hidden="true"></i>
     </button>
   </header>
 
   <main id="top">
 
+    <!-- Bloque azul a todo el ancho: hero + carrusel de webs -->
+    <div class="showcase">
+
     <section class="hero" data-reveal-group="up">
-      <h1 class="hero-title" data-reveal>Webs que generan crecimiento</h1>
-      <p class="hero-subtitle" data-reveal>Landing pages con una estrategia muy clara.</p>
+      <h1 class="hero-title" data-reveal>Tu página <em class="accent-serif">lista para vender</em></h1>
+      <p class="hero-subtitle" data-reveal>Con una estrategia clara: atraer, generar confianza y cerrar la venta.</p>
 
       <ol class="hero-steps" data-reveal>
-        <li>1. Que al cliente le atraiga tu producto</li>
-        <li>2. Generar confianza</li>
-        <li><strong>3. Y se contacte con vos</strong></li>
+        <li>1. Tu cliente ve tu producto y le atrae</li>
+        <li>2. Confía en tu marca</li>
+        <li><strong>3. Te escribe para comprar</strong></li>
       </ol>
 
-      <p class="hero-question" data-reveal>¿En la era de la inteligencia artificial vas a subir al tren o vas a quedarte mirando cómo pasa?</p>
+      <p class="hero-question" data-reveal>Diseño, desarrollo y SEO. Tu página online sin vueltas</p>
+      <p class="hero-subquestion" data-reveal> vendé las 24hs  A TODO EL PAIS.</p>
 
       <div class="hero-actions" data-reveal>
         <a href="https://wa.me/5493517732496?text=Hola%2C%20quiero%20coordinar%20una%20reunion" class="btn btn-primary">Contactanos</a>
@@ -107,66 +114,72 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <section class="portfolio" id="portfolio">
       <h2 class="section-title" data-reveal>Nuestro Portfolio</h2>
 
-      <!-- 3 columnas verticales con scroll automático (2 suben, 1 baja).
-           Para sumar un proyecto nuevo: agregá otra <a class="portfolio-card">
-           en cualquier columna, el JS duplica el contenido para el loop solo. -->
+      <!-- 3 columnas con parallax: cada una se desplaza a distinta velocidad
+           mientras el usuario scrollea la página (como el showcase de
+           tiendanube.com), no es movimiento automático. Para sumar un
+           proyecto nuevo alcanza con agregar otra <a class="portfolio-card">
+           en cualquier columna, no hace falta tocar CSS ni JS. -->
       <div class="portfolio-columns">
-        <div class="portfolio-col">
-          <div class="portfolio-col-track portfolio-col-track-up" data-portfolio-col>
-            <a href="https://clubandinovcp.pages.dev/" class="portfolio-card">
-              <img src="04.jpeg" alt="Club Andino VCP" loading="lazy">
-              <div class="portfolio-name">Club Andino VCP</div>
-              <div class="portfolio-desc">Club de escalada y trekking</div>
-            </a>
-            <a href="https://uziel44.github.io/plexigestion" class="portfolio-card">
-              <img src="assets/home/gest.png" alt="Plexi Gestión" loading="lazy">
-              <div class="portfolio-name">Plexi Gestión</div>
-              <div class="portfolio-desc">Asesoramiento de administración</div>
-            </a>
-            <a href="https://rincondenina.pages.dev/" class="portfolio-card">
-              <img src="assets/home/rincondenina.jpg" alt="Rincón de Nina" loading="lazy">
-              <div class="portfolio-name">Rincón de Nina</div>
-              <div class="portfolio-desc">Alojamiento en Tanti, Córdoba</div>
-            </a>
-          </div>
+        <div class="portfolio-col" data-parallax="-0.12">
+          <a href="https://electrotest.com.ar" class="portfolio-card">
+            <img src="assets/home/elec.png" alt="Electrotest" loading="lazy">
+            <div class="portfolio-name">Electrotest</div>
+            <div class="portfolio-desc">Mantenimiento eléctrico alta tensión</div>
+          </a>
+          <a href="https://ilhagrande.pages.dev/" class="portfolio-card">
+            <img src="assets/home/ilha.png" alt="Ilha Grande" loading="lazy">
+            <div class="portfolio-name">Ilha Grande</div>
+            <div class="portfolio-desc">Ecoturismo aventura</div>
+          </a>
+          <a href="https://rincondenina.pages.dev/" class="portfolio-card">
+            <img src="assets/home/rincondenina.jpg" alt="Rincón de Nina" loading="lazy">
+            <div class="portfolio-name">Rincón de Nina</div>
+            <div class="portfolio-desc">Alojamiento en Tanti, Córdoba</div>
+          </a>
         </div>
 
-        <div class="portfolio-col">
-          <div class="portfolio-col-track portfolio-col-track-down" data-portfolio-col>
-            <a href="https://electrotest.com.ar" class="portfolio-card">
-              <img src="assets/home/elec.png" alt="Electrotest" loading="lazy">
-              <div class="portfolio-name">Electrotest</div>
-              <div class="portfolio-desc">Mantenimiento eléctrico alta tensión</div>
-            </a>
-            <a href="https://ilhagrande.pages.dev/" class="portfolio-card">
-              <img src="assets/home/ilha.png" alt="Ilha Grande" loading="lazy">
-              <div class="portfolio-name">Ilha Grande</div>
-              <div class="portfolio-desc">Ecoturismo aventura</div>
-            </a>
-            <a href="https://verax-duediligence.pages.dev/" class="portfolio-card">
-              <img src="assets/home/verax.png" alt="Verax Due Diligence" loading="lazy">
-              <div class="portfolio-name">Verax Due Diligence</div>
-              <div class="portfolio-desc">Investigación y due diligence</div>
-            </a>
-          </div>
+        <div class="portfolio-col" data-parallax="0.16">
+          <a href="https://uziel44.github.io/miyendj" class="portfolio-card">
+            <img src="assets/home/miy.png" alt="M I Y E N dj" loading="lazy">
+            <div class="portfolio-name">M I Y E N dj</div>
+            <div class="portfolio-desc">Entretenimiento y shows</div>
+          </a>
+          <a href="https://clubandinovcp.pages.dev/" class="portfolio-card">
+            <img src="assets/home/clubvcp.png" alt="Club Andino VCP" loading="lazy">
+            <div class="portfolio-name">Club Andino VCP</div>
+            <div class="portfolio-desc">Club de escalada y trekking</div>
+          </a>
+          <a href="https://gestion.plexi.com.ar" class="portfolio-card">
+            <img src="assets/home/gest.png" alt="Plexi Gestión" loading="lazy">
+            <div class="portfolio-name">Plexi Gestión</div>
+            <div class="portfolio-desc">Asesoramiento de administración</div>
+          </a>
         </div>
 
-        <div class="portfolio-col">
-          <div class="portfolio-col-track portfolio-col-track-up" data-portfolio-col>
-            <a href="https://uziel44.github.io/miyendj" class="portfolio-card">
-              <img src="assets/home/miy.png" alt="M I Y E N dj" loading="lazy">
-              <div class="portfolio-name">M I Y E N dj</div>
-              <div class="portfolio-desc">Entretenimiento y shows</div>
-            </a>
-            <a href="https://uziel44.github.io/datovivo" class="portfolio-card">
-              <img src="assets/home/dato.png" alt="Datovivo" loading="lazy">
-              <div class="portfolio-name">Datovivo</div>
-              <div class="portfolio-desc">Blog de análisis estadísticos</div>
-            </a>
-          </div>
+        <div class="portfolio-col" data-parallax="-0.2">
+          <a href="https://uziel44.github.io/datovivo" class="portfolio-card">
+            <img src="assets/home/dato.png" alt="Datovivo" loading="lazy">
+            <div class="portfolio-name">Datovivo</div>
+            <div class="portfolio-desc">Blog de análisis estadísticos</div>
+          </a>
+          <a href="https://verax-duediligence.pages.dev/" class="portfolio-card">
+            <img src="assets/home/verax.png" alt="Verax Due Diligence" loading="lazy">
+            <div class="portfolio-name">Verax Due Diligence</div>
+            <div class="portfolio-desc">Investigación y due diligence</div>
+          </a>
+          <!-- Pendiente: FreddTur está comentado porque assets/home/freddtur.png
+               no existe todavía. Agregar la imagen y descomentar la card.
+          <a href="https://uziel44.github.io/freddtur/" class="portfolio-card">
+            <img src="assets/home/freddtur.png" alt="FreddTur" loading="lazy">
+            <div class="portfolio-name">FreddTur</div>
+            <div class="portfolio-desc">Agencia de viajes</div>
+          </a>
+          -->
         </div>
       </div>
     </section>
+
+    </div>
 
     <section class="proceso" id="proceso">
       <div class="proceso-inner">
@@ -222,12 +235,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
       <div class="testimonials-track no-scrollbar" data-reveal-group="up">
         <div class="testimonial-card" data-reveal>
-          <div class="stars">
-            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+          <div class="stars" role="img" aria-label="5 de 5 estrellas">
+            <i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i>
           </div>
           <p class="testimonial-quote">"Excelente trabajo, entendieron a la perfección la imagen que queremos transmitir a los clientes. Gracias a la nueva web logramos transmitir la seriedad y seguridad que estamos buscando."</p>
           <div class="testimonial-author">
-            <div class="avatar"></div>
+            <div class="avatar" aria-hidden="true">ZG</div>
             <div>
               <div class="author-name">Zarzuelo Guillermo</div>
               <div class="author-role">Electrotest</div>
@@ -236,12 +249,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
 
         <div class="testimonial-card" data-reveal>
-          <div class="stars">
-            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+          <div class="stars" role="img" aria-label="5 de 5 estrellas">
+            <i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i>
           </div>
           <p class="testimonial-quote">"Increíble, antes usaba beacons.ai pero tenia muchos limitantes y un formato prearmado, nunca tuve la libertad de elegir y mostrar mis shows como con mi propia pagina. Tener tu propia web y poder medir la metricas sirve para conectar mucho mejor con mis clientes."</p>
           <div class="testimonial-author">
-            <div class="avatar"></div>
+            <div class="avatar" aria-hidden="true">MC</div>
             <div>
               <div class="author-name">Miyen Chiodi</div>
               <div class="author-role">Miyen dj</div>
@@ -250,12 +263,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
 
         <div class="testimonial-card" data-reveal>
-          <div class="stars">
-            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+          <div class="stars" role="img" aria-label="5 de 5 estrellas">
+            <i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i><i class="bi bi-star-fill" aria-hidden="true"></i>
           </div>
           <p class="testimonial-quote">"La plataforma muestra la esencia de nuestras experiencias al aire libre. La navegación es superintuitiva para los viajeros y se nota en las reservas de excursiones desde que lanzamos la web."</p>
           <div class="testimonial-author">
-            <div class="avatar"></div>
+            <div class="avatar" aria-hidden="true">FR</div>
             <div>
               <div class="author-name">Franco Raffaeli</div>
               <div class="author-role">Guia ilha grande aventura</div>
