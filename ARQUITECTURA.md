@@ -42,7 +42,7 @@ Estado real del proyecto: **HTML estático servido tal cual**, sin Vite ni ning�
 - [x] `twitter:card` agregado.
 - [x] `<link rel="canonical">` agregado (`https://web.plexi.com.ar/`).
 - [x] JSON-LD `LocalBusiness` agregado.
-- [x] Favicon y `apple-touch-icon` agregados, apuntan a `assets/logo/logo.png`.
+- [x] Favicon y `apple-touch-icon` apuntan a `assets/logo/logo-round.png` (versión recortada en círculo de `logo-dark.png`, el isotipo "P" de la marca). El `logo.png` (paralelogramo) anterior quedó sin uso.
 - [x] `theme-color` agregado.
 - [x] `og:image`/`twitter:image`/JSON-LD `image` apuntaban a `assets/02.jpeg`, que no existía en el repo (asset roto real, no solo un ítem de checklist) — se copió el archivo correcto a `assets/02.jpeg` dentro del repo.
 - [x] `og:url`, `canonical` y JSON-LD `url`/`image` apuntaban a `plexiweb.pages.dev`, dominio que no resuelve (`NXDOMAIN`) — corregidos a `https://web.plexi.com.ar/`, el dominio real donde está publicado el sitio (DNS → GitHub Pages). `og:image`/`twitter:image`/JSON-LD `image` también pasaron de ruta relativa a absoluta: Open Graph y Twitter Cards requieren URL absoluta para resolver la imagen de forma confiable.
