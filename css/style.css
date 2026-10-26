@@ -311,20 +311,33 @@ section[id] { scroll-margin-top: 80px; }
 .portfolio-name { font-size: 14px; font-weight: 600; padding: 0 4px; }
 .portfolio-desc { font-size: 13px; color: var(--ink-faint); padding: 0 4px 4px; }
 
-@media (max-width: 520px) {
-  .portfolio { padding: 20px 14px 50px; }
-  .portfolio-columns { gap: 8px; }
-  .portfolio-col { gap: 8px; }
-  .portfolio-col:nth-child(2) { margin-top: 32px; }
-  .portfolio-col:nth-child(3) { margin-top: -16px; }
-  .portfolio-name { font-size: 12px; }
-  .portfolio-desc { font-size: 10px; }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .portfolio-col { transform: none !important; }
   .portfolio-col:nth-child(2),
   .portfolio-col:nth-child(3) { margin-top: 0; }
+}
+
+/* La 3ª columna queda vacía en mobile (initPortfolioColumns reparte sus cards). */
+.portfolio-col[hidden] { display: none; }
+
+/* ---------- Portfolio en mobile: 2 columnas con 4 cards cada una ----------
+   Las cards las reparte initPortfolioColumns. Cada imagen se recorta a ~2/3
+   de su ancho: la caja es 14:15 y una captura de 1.4:1 muestra (14/15) / 1.4 =
+   2/3. Es aproximado: las capturas no tienen todas la misma proporción
+   (de 0.8 a 2.1), así que las más anchas se recortan más y las verticales
+   casi nada. Anclada a la izquierda, donde está el título de cada web. */
+@media (max-width: 520px) {
+  /* Sin margen lateral: las columnas llegan de borde a borde de la pantalla.
+     El selector lleva .showcase para ganarle a la regla de ≤900px (más abajo
+     en el archivo), que si no vuelve a poner 24px a cada lado. */
+  .showcase .portfolio { padding: 20px 0 50px; }
+  .portfolio-columns { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 24px 0; }
+  .portfolio-col { gap: 10px; }
+  .portfolio-col:nth-child(2) { margin-top: 40px; }
+  .portfolio-col:nth-child(3) { margin-top: 0; }
+  .portfolio-card img { aspect-ratio: 14 / 15; object-position: left top; }
+  .portfolio-name { font-size: 13px; }
+  .portfolio-desc { font-size: 12px; }
 }
 
 /* ---------- Proceso ---------- */

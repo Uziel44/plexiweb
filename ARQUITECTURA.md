@@ -36,15 +36,17 @@ Estado real del proyecto: **HTML estático servido tal cual**, sin Vite ni ning�
 
 ## 5. SEO y metadatos
 
-- [x] `<title>` y `<meta name="description">` específicos (no genéricos).
+- [x] `<title>` (59 car.) y `<meta name="description">` (151 car.) específicos, dentro del rango óptimo (50-60 / 150-160).
 - [x] Open Graph (`og:title`, `og:description`, `og:image`, `og:type`, `og:url`) presentes.
 - [x] `google-site-verification` presente.
 - [x] `twitter:card` agregado.
-- [x] `<link rel="canonical">` agregado (`https://plexiweb.pages.dev/`).
+- [x] `<link rel="canonical">` agregado (`https://web.plexi.com.ar/`).
 - [x] JSON-LD `LocalBusiness` agregado.
 - [x] Favicon y `apple-touch-icon` agregados, apuntan a `assets/logo/logo.png`.
 - [x] `theme-color` agregado.
 - [x] `og:image`/`twitter:image`/JSON-LD `image` apuntaban a `assets/02.jpeg`, que no existía en el repo (asset roto real, no solo un ítem de checklist) — se copió el archivo correcto a `assets/02.jpeg` dentro del repo.
+- [x] `og:url`, `canonical` y JSON-LD `url`/`image` apuntaban a `plexiweb.pages.dev`, dominio que no resuelve (`NXDOMAIN`) — corregidos a `https://web.plexi.com.ar/`, el dominio real donde está publicado el sitio (DNS → GitHub Pages). `og:image`/`twitter:image`/JSON-LD `image` también pasaron de ruta relativa a absoluta: Open Graph y Twitter Cards requieren URL absoluta para resolver la imagen de forma confiable.
+- [x] `robots.txt` y `sitemap.xml` agregados en la raíz (no existían). `robots.txt` permite todo y referencia el sitemap; `sitemap.xml` declara la única URL real del sitio.
 
 ## 6. Rendimiento
 
@@ -64,7 +66,7 @@ Estado real del proyecto: **HTML estático servido tal cual**, sin Vite ni ning�
 
 ## 8. Analytics y scripts de terceros
 
-- [x] Google Tag Manager (`GTM-M95P8XHG`) documentado con comentario en `<head>` y `<noscript>` al inicio del `<body>`.
+- [x] Google Tag Manager (`GTM-NPFRHSZ8`) documentado con comentario en `<head>` y `<noscript>` al inicio del `<body>`.
 - [x] Cookie banner propio con toggle de "Analítica" — verificar que el JS realmente condicione el disparo de GTM/analítica según ese toggle (no solo lo muestre visualmente).
 - [ ] No hay otros scripts de terceros además de GTM, Google Fonts y Bootstrap Icons CDN — mantener esta lista corta y documentada si se agregan más (Meta Pixel, etc.).
 

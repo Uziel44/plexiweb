@@ -1,0 +1,6 @@
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
+
+User-agent: *
+Allow: /
+
+Sitemap: https://web.plexi.com.ar/sitemap.xml
