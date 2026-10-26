@@ -594,6 +594,8 @@ section[id] { scroll-margin-top: 80px; }
 .footer-title-brand { font-family: var(--font-display); font-size: 16px; }
 .footer-tagline { margin: 6px 0 0; font-size: 14px; color: var(--ink-soft); }
 .footer-copy { margin: 14px 0 0; font-size: 13px; color: var(--ink-faint); }
+.footer-copy a { color: inherit; }
+.footer-copy a:hover { color: var(--accent); }
 
 .social-icons {
   display: flex;

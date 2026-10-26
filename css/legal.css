@@ -1,0 +1,28 @@
+/* ---------- Páginas legales (términos, privacidad) ---------- */
+.legal-body .site-header { justify-content: flex-start; border-bottom: 1px solid var(--border); }
+
+.legal-main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+
+.legal-volver {
+  display: inline-block;
+  margin-bottom: 24px;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+.legal-volver:hover { color: var(--accent); }
+
+.legal-contenido h1 { font-size: 32px; margin: 0 0 4px; }
+.legal-subtitulo { color: var(--ink-faint); font-size: 14px; margin: 0 0 32px; }
+
+.legal-contenido h2 { font-size: 20px; margin: 32px 0 12px; }
+.legal-contenido h3 { font-size: 16px; margin: 20px 0 8px; }
+.legal-contenido p,
+.legal-contenido li { font-size: 15px; line-height: 1.6; color: var(--ink-soft); }
+.legal-contenido ul { padding-left: 20px; list-style: disc; margin: 0 0 12px; }
+.legal-contenido li { margin-bottom: 6px; }
+
+.legal-contenido .legal-volver:last-child { margin-top: 32px; margin-bottom: 0; }
