@@ -338,7 +338,7 @@ section[id] { scroll-margin-top: 80px; }
 }
 .portfolio-col[hidden] { display: none; }
 
-/* ---------- Portfolio en mobile: 2 columnas con 6 cards cada una ----------
+/* ---------- Portfolio en mobile: 2 columnas con 6 o 7 cards cada una ----------
    Las cards las reparte initPortfolioColumns. Cada imagen se recorta a ~2/3
    de su ancho: la caja es 14:15 y una captura de 1.4:1 muestra (14/15) / 1.4 =
    2/3. Es aproximado: las capturas no tienen todas la misma proporción
