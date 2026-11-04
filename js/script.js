@@ -162,7 +162,7 @@ function initParallax(lenis) {
 
 /**
  * Portfolio en tablet y mobile (≤900px): de 4 columnas a 2, con las cards
- * repartidas en partes iguales (6 + 6 con las 12 webs actuales). Las cards de
+ * repartidas en partes iguales (7 + 6 con las 13 webs actuales). Las cards de
  * la 3ª y la 4ª columna se pasan de a una a la 1ª y a la 2ª, y esas columnas se
  * ocultan. Al ensanchar la pantalla cada card vuelve a su columna original.
  * Agregar una card nueva en el HTML sigue bastando: no hace falta tocar este JS.
