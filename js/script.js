@@ -116,7 +116,7 @@ function initRevealAnimations() {
 
 /**
  * Parallax en elementos marcados con data-parallax="0.2" (intensidad; negativo
- * invierte la dirección). Usado por el showcase de portfolio (3 columnas a
+ * invierte la dirección). Usado por el showcase de portfolio (4 columnas a
  * distinta velocidad, igual que tiendanube.com) y queda disponible para
  * cualquier otro elemento. Se desactiva con movimiento reducido. Si Lenis
  * está activo se engancha a su evento de scroll; si no, usa el scroll nativo.
@@ -161,11 +161,11 @@ function initParallax(lenis) {
 }
 
 /**
- * Portfolio en mobile (≤520px): de 3 columnas a 2, con las cards repartidas
- * en partes iguales (4 + 4 con las 8 webs actuales). Las cards de la 3ª
- * columna se pasan de a una a la 1ª y a la 2ª, y esa columna se oculta. Al
- * ensanchar la pantalla cada card vuelve a su columna original. Agregar una
- * card nueva en el HTML sigue bastando: no hace falta tocar este JS.
+ * Portfolio en tablet y mobile (≤900px): de 4 columnas a 2, con las cards
+ * repartidas en partes iguales (6 + 6 con las 12 webs actuales). Las cards de
+ * la 3ª y la 4ª columna se pasan de a una a la 1ª y a la 2ª, y esas columnas se
+ * ocultan. Al ensanchar la pantalla cada card vuelve a su columna original.
+ * Agregar una card nueva en el HTML sigue bastando: no hace falta tocar este JS.
  */
 function initPortfolioColumns() {
   const cols = Array.from(document.querySelectorAll('.portfolio-col'));
@@ -175,7 +175,7 @@ function initPortfolioColumns() {
   const entries = cols.flatMap((col, colIndex) =>
     Array.from(col.children).map((card) => ({ card, colIndex })),
   );
-  const mobileQuery = window.matchMedia('(max-width: 520px)');
+  const mobileQuery = window.matchMedia('(max-width: 900px)');
 
   const layout = () => {
     const isMobile = mobileQuery.matches;
