@@ -322,7 +322,7 @@ section[id] { scroll-margin-top: 80px; }
 
 /* Cards con captura full-page larga: en hover (o touch sostenido en mobile)
    la imagen recorre de arriba a abajo, simulando el scroll del sitio real. */
-.portfolio-card--scroll img { object-position: top; transition: object-position 3.5s ease; }
+.portfolio-card--scroll img { object-position: top; transition: object-position 8s ease; }
 .portfolio-card--scroll:hover img,
 .portfolio-card--scroll.is-scrolling img { object-position: bottom; }
 
