@@ -320,11 +320,18 @@ section[id] { scroll-margin-top: 80px; }
 
 .portfolio-desc { font-size: 13px; color: var(--ink-faint); padding: 8px 10px; }
 
+/* Cards con captura full-page larga: en hover (o touch sostenido en mobile)
+   la imagen recorre de arriba a abajo, simulando el scroll del sitio real. */
+.portfolio-card--scroll img { object-position: top; transition: object-position 3.5s ease; }
+.portfolio-card--scroll:hover img,
+.portfolio-card--scroll.is-scrolling img { object-position: bottom; }
+
 @media (prefers-reduced-motion: reduce) {
   .portfolio-col { transform: none !important; }
   .portfolio-col:nth-child(2),
   .portfolio-col:nth-child(3),
   .portfolio-col:nth-child(4) { margin-top: 0; }
+  .portfolio-card--scroll img { transition: none; }
 }
 
 /* Tablet y mobile (≤900px): 2 columnas. Las columnas 3 y 4 quedan vacías y

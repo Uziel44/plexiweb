@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const lenis = initSmoothScroll();
   initMobileNav();
   initPortfolioColumns();
+  initPortfolioScrollCards();
   initCookieBanner();
   initRevealAnimations();
   initParallax(lenis);
@@ -193,6 +194,20 @@ function initPortfolioColumns() {
 
   layout();
   mobileQuery.addEventListener('change', layout);
+}
+
+/**
+ * Cards de portfolio con captura full-page larga (".portfolio-card--scroll"):
+ * en desktop el recorrido de arriba a abajo ya lo hace ":hover" en CSS. En
+ * touch no hay hover sostenido, así que acá se activa con el dedo apoyado
+ * (touchstart) y se corta al soltar o cancelar (touchend/touchcancel).
+ */
+function initPortfolioScrollCards() {
+  document.querySelectorAll('.portfolio-card--scroll').forEach((card) => {
+    card.addEventListener('touchstart', () => card.classList.add('is-scrolling'), { passive: true });
+    card.addEventListener('touchend', () => card.classList.remove('is-scrolling'));
+    card.addEventListener('touchcancel', () => card.classList.remove('is-scrolling'));
+  });
 }
 
 function initMobileNav() {
