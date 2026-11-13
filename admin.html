@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Panel — Plexiweb</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="brand"><b>Plexiweb</b> <span>Panel de métricas</span></div>
+    <div class="top-actions">
+      <a class="link" href="/" target="_blank" rel="noopener">Ver la web</a>
+      <button class="btn ghost" id="logout" type="button" hidden>Salir</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ENTRAR -->
+  <section id="login" class="login-box">
+    <h1>Entrar</h1>
+    <form id="login-form" autocomplete="on">
+      <label for="login-user">Usuario</label>
+      <input id="login-user" name="usuario" type="text" autocomplete="username" autocapitalize="none" required>
+      <label for="login-pass">Contraseña</label>
+      <input id="login-pass" name="password" type="password" autocomplete="current-password" required>
+      <p class="msg" id="login-msg" role="alert"></p>
+      <button class="btn" id="login-send" type="submit">Entrar</button>
+    </form>
+  </section>
+
+  <!-- MÉTRICAS -->
+  <section id="panel-metricas" hidden>
+    <div class="bar">
+      <h2>Métricas <span class="muted small">últimos 30 días</span></h2>
+      <button class="btn ghost" id="metricas-refresh" type="button">Actualizar</button>
+    </div>
+    <p class="muted" id="metricas-loading" hidden>Cargando…</p>
+    <p class="msg" id="metricas-msg" role="alert"></p>
+    <div id="metricas-cuerpo"></div>
+  </section>
+
+</main>
+
+<script src="admin.js" defer></script>
+</body>
+</html>
