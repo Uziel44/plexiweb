@@ -1,19 +1,23 @@
 'use strict';
 
 // Backend chico de la landing de Plexiweb. Caddy sirve la web estatica (index.html, css, js, admin.html) y
-// solo le manda /api/* a este servidor: login del panel y metricas anonimas. Si este contenedor se cae,
-// la landing sigue en pie (solo dejan de contarse las visitas).
+// solo le manda /api/* y /uploads/* a este servidor: login del panel, metricas anonimas y las tarjetas del
+// portfolio que se editan desde el panel. Si este contenedor se cae, la landing sigue en pie con su HTML
+// (solo dejan de contarse las visitas y de verse los cambios hechos desde el panel).
 
 const crypto = require('node:crypto');
 const path = require('node:path');
 const express = require('express');
 
 const { createAuth } = require('./lib/auth');
+const { AdminError, createCardStore } = require('./lib/cards');
 const { createMetricsStore, normalizeEvent, summarize } = require('./lib/metrics');
 const { createRateLimiter } = require('./lib/ratelimit');
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 const JSON_CONTENT_TYPE = /^application\/(?:[\w.+-]+\+)?json\b/i;
+const UPLOAD_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+const UPLOADED_FILE = /^\/[a-f0-9]{32}\.(?:jpg|png|webp)$/;
 const isObject = (value) => value !== null && typeof value === 'object' && !Array.isArray(value);
 
 const consoleLogger = Object.fromEntries(
@@ -41,8 +45,10 @@ function createApp({
 } = {}) {
   const auth = createAuth({ env, logger });
   const metrics = createMetricsStore(dataDir, { now });
+  const cards = createCardStore({ dataDir });
   const loginLimiter = createRateLimiter({ limit: 10, windowMs: 15 * 60_000, now });
   const metricsLimiter = createRateLimiter({ limit: 120, windowMs: 60_000, now }); // de sobra para una persona; corta rafagas automaticas
+  const cardsLimiter = createRateLimiter({ limit: 120, windowMs: 60_000, now }); // la landing lo pide una vez por visita
 
   // Una vez al dia se descartan los eventos de metricas de mas de 90 dias.
   metrics.prune().catch((err) => logger.error('metrics.prune_fallo', { reason: err.message }));
@@ -59,7 +65,7 @@ function createApp({
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('X-Frame-Options', 'DENY');
     res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-    res.setHeader('Cache-Control', 'no-store');
+    if (req.path.startsWith('/api/')) res.setHeader('Cache-Control', 'no-store');
     return next();
   });
 
@@ -78,6 +84,9 @@ function createApp({
   const jsonBody = express.json({ limit: '4kb', strict: true });
 
   app.get('/api/health', (req, res) => res.json({ ok: true, panel: auth.enabled }));
+
+  // Tarjetas del portfolio: la landing las pide al cargar. Si nadie las editó, responde custom:false y la web deja su HTML.
+  app.get('/api/cards', limit(cardsLimiter, 'cards'), (req, res) => res.json(cards.publicView()));
 
   // La landing manda eventos anonimos; el panel los resume.
   app.post('/api/metrics', limit(metricsLimiter, 'metrics'), requireJson, jsonBody, (req, res) => {
@@ -116,13 +125,43 @@ function createApp({
     return next();
   });
   admin.get('/metrics', (req, res) => res.json(summarize({ events: metrics.readEvents(), now: now() })));
+
+  // Tarjetas del portfolio: alta, edición, baja, orden e imágenes.
+  admin.get('/cards', (req, res) => res.json(cards.view()));
+  admin.post('/cards', requireJson, jsonBody, async (req, res) => res.status(201).json(await cards.create(req.body)));
+  admin.put('/cards-order', requireJson, jsonBody, async (req, res) => {
+    await cards.reorder(isObject(req.body) ? req.body.ids : undefined);
+    res.json({ ok: true });
+  });
+  admin.put('/cards/:id', requireJson, jsonBody, async (req, res) => res.json(await cards.update(req.params.id, req.body)));
+  admin.delete('/cards/:id', async (req, res) => {
+    await cards.remove(req.params.id);
+    res.json({ ok: true });
+  });
+  admin.post(
+    '/images',
+    (req, res, next) => {
+      if (!req.is(UPLOAD_TYPES)) return res.status(415).json(errorBody('tipo_no_soportado', 'Subí una imagen JPG, PNG o WebP.'));
+      return next();
+    },
+    express.raw({ type: UPLOAD_TYPES, limit: '8mb' }),
+    async (req, res) => res.status(201).json({ url: await cards.saveImage(req.body) }),
+  );
   app.use('/api/admin', admin);
+
+  // Imágenes subidas desde el panel: nombre aleatorio e inmutable, así que caché larga. Solo se sirve un nombre válido.
+  app.use(
+    '/uploads',
+    (req, res, next) => (UPLOADED_FILE.test(req.path) ? next() : res.status(404).end()),
+    express.static(path.join(dataDir, 'uploads'), { dotfiles: 'ignore', index: false, redirect: false, maxAge: '365d', immutable: true }),
+  );
 
   app.use((req, res) => res.status(404).json(errorBody('no_encontrado', 'Ruta inexistente.')));
 
   // eslint-disable-next-line no-unused-vars
   app.use((err, req, res, next) => {
-    if (err.type === 'entity.too.large') return res.status(413).json(errorBody('body_demasiado_grande', 'El pedido es demasiado grande.'));
+    if (err instanceof AdminError) return res.status(err.status).json({ ...errorBody(err.code, err.message), ...(err.field ? { field: err.field } : {}) });
+    if (err.type === 'entity.too.large') return res.status(413).json(errorBody('body_demasiado_grande', 'El pedido o el archivo es demasiado grande.'));
     if (err.type === 'entity.parse.failed' || err.type === 'encoding.unsupported' || err.type === 'charset.unsupported') {
       return res.status(400).json(errorBody('json_invalido', 'El cuerpo no es un JSON válido.'));
     }

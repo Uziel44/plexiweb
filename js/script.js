@@ -1,11 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
   const lenis = initSmoothScroll();
   initMobileNav();
-  initPortfolioColumns();
+  const portfolioColumns = initPortfolioColumns();
   initPortfolioScrollCards();
   initCookieBanner();
   initRevealAnimations();
   initParallax(lenis);
+  // Sin await: la web ya está pintada con el HTML; si el panel guardó tarjetas propias, se reemplazan al llegar.
+  renderPortfolioFromPanel(portfolioColumns);
 });
 
 /**
@@ -167,15 +169,18 @@ function initParallax(lenis) {
  * la 3ª y la 4ª columna se pasan de a una a la 1ª y a la 2ª, y esas columnas se
  * ocultan. Al ensanchar la pantalla cada card vuelve a su columna original.
  * Agregar una card nueva en el HTML sigue bastando: no hace falta tocar este JS.
+ * Devuelve { refresh() } para volver a leer las cards cuando renderPortfolioFromPanel las reemplaza.
+ * @returns {{refresh: function}|null}
  */
 function initPortfolioColumns() {
   const cols = Array.from(document.querySelectorAll('.portfolio-col'));
-  if (cols.length < 3) return;
+  if (cols.length < 3) return null;
 
   // Columna original de cada card, para poder deshacer el reparto.
-  const entries = cols.flatMap((col, colIndex) =>
+  const collect = () => cols.flatMap((col, colIndex) =>
     Array.from(col.children).map((card) => ({ card, colIndex })),
   );
+  let entries = collect();
   const mobileQuery = window.matchMedia('(max-width: 900px)');
 
   const layout = () => {
@@ -194,6 +199,67 @@ function initPortfolioColumns() {
 
   layout();
   mobileQuery.addEventListener('change', layout);
+
+  return {
+    refresh() {
+      entries = collect();
+      layout();
+    },
+  };
+}
+
+/**
+ * Tarjetas del portfolio editables desde el panel (/admin.html, solapa "Tarjetas"). El HTML de la web trae las
+ * cards de siempre; si el panel guardó una lista propia (GET /api/cards -> custom:true) se reemplazan por esa,
+ * repartidas de a una por columna en el orden del panel (la 1ª a la columna 1, la 2ª a la 2ª, ... la 5ª otra vez a
+ * la 1ª). Si no hay lista guardada, el backend no responde o la web se abre sin servidor, queda el HTML tal cual.
+ * Todo se arma con textContent/atributos (nada de innerHTML) y solo se aceptan links http(s).
+ * @param {{refresh: function}|null} columns resultado de initPortfolioColumns()
+ */
+async function renderPortfolioFromPanel(columns) {
+  const cols = Array.from(document.querySelectorAll('.portfolio-col'));
+  if (!columns || !cols.length || location.protocol === 'file:') return;
+
+  let data;
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 5000);
+    const res = await fetch('/api/cards', { signal: controller.signal, headers: { Accept: 'application/json' } });
+    clearTimeout(timer);
+    if (!res.ok) return;
+    data = await res.json();
+  } catch {
+    return;
+  }
+  if (!data || data.custom !== true || !Array.isArray(data.cards) || !data.cards.length) return;
+
+  const fragments = cols.map(() => document.createDocumentFragment());
+  data.cards.forEach((card, i) => {
+    if (!card || typeof card.image !== 'string' || typeof card.title !== 'string') return;
+    const hasLink = typeof card.link === 'string' && /^https?:\/\//i.test(card.link);
+    const el = document.createElement(hasLink ? 'a' : 'div');
+    el.className = card.tall ? 'portfolio-card portfolio-card--scroll' : 'portfolio-card';
+    if (hasLink) el.href = card.link;
+
+    const img = document.createElement('img');
+    img.src = `/${card.image.replace(/^\/+/, '')}`;
+    img.alt = card.title;
+    img.loading = 'lazy';
+    el.appendChild(img);
+
+    if (card.description) {
+      const desc = document.createElement('div');
+      desc.className = 'portfolio-desc';
+      desc.textContent = card.description;
+      el.appendChild(desc);
+    }
+    fragments[i % cols.length].appendChild(el);
+  });
+
+  cols.forEach((col, i) => col.replaceChildren(fragments[i]));
+  columns.refresh();
+  initPortfolioScrollCards();
+  window.dispatchEvent(new Event('resize')); // el parallax recalcula con la nueva altura de las columnas
 }
 
 /**
@@ -204,6 +270,8 @@ function initPortfolioColumns() {
  */
 function initPortfolioScrollCards() {
   document.querySelectorAll('.portfolio-card--scroll').forEach((card) => {
+    if (card.dataset.touchBound) return; // se vuelve a llamar cuando el panel reemplaza las cards
+    card.dataset.touchBound = '1';
     card.addEventListener('touchstart', () => card.classList.add('is-scrolling'), { passive: true });
     card.addEventListener('touchend', () => card.classList.remove('is-scrolling'));
     card.addEventListener('touchcancel', () => card.classList.remove('is-scrolling'));

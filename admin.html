@@ -14,7 +14,7 @@
 
 <header class="top">
   <div class="top-inner">
-    <div class="brand"><b>Plexiweb</b> <span>Panel de métricas</span></div>
+    <div class="brand"><b>Plexiweb</b> <span>Panel</span></div>
     <div class="top-actions">
       <a class="link" href="/" target="_blank" rel="noopener">Ver la web</a>
       <button class="btn ghost" id="logout" type="button" hidden>Salir</button>
@@ -37,6 +37,12 @@
     </form>
   </section>
 
+  <!-- PESTAÑAS -->
+  <nav id="tabs" class="tabs" aria-label="Secciones del panel" hidden>
+    <button class="tab" id="tab-metricas" type="button" aria-pressed="true">Métricas</button>
+    <button class="tab" id="tab-tarjetas" type="button" aria-pressed="false">Tarjetas</button>
+  </nav>
+
   <!-- MÉTRICAS -->
   <section id="panel-metricas" hidden>
     <div class="bar">
@@ -48,7 +54,64 @@
     <div id="metricas-cuerpo"></div>
   </section>
 
+  <!-- TARJETAS -->
+  <section id="panel-tarjetas" hidden>
+    <div class="bar">
+      <h2>Tarjetas del portfolio</h2>
+      <button class="btn" id="nueva" type="button">+ Nueva tarjeta</button>
+    </div>
+    <p class="muted small">Son las tarjetas de “Nuestro Portfolio” de la web. Se ordenan de izquierda a derecha, de a 4 (en el celular se acomodan solas en 2 columnas). Para cambiar una de lugar, arrastrala o usá las flechas ↑ ↓. Los cambios se ven en la web al recargarla.</p>
+    <p class="msg info" id="tarjetas-aviso" hidden>Todavía no cambiaste nada: acá ves las tarjetas que trae la web. Cuando guardes tu primer cambio, la web pasa a mostrar esta lista.</p>
+    <p class="muted" id="tarjetas-loading" hidden>Cargando…</p>
+    <p class="msg" id="tarjetas-msg" role="alert"></p>
+    <p class="sr" id="tarjetas-status" role="status" aria-live="polite"></p>
+    <ol class="card-list" id="tarjetas-lista"></ol>
+  </section>
+
 </main>
+
+<!-- EDITOR DE TARJETA -->
+<dialog id="editor" class="dlg" aria-labelledby="editor-titulo">
+  <form id="editor-form" method="dialog" novalidate>
+    <h2 id="editor-titulo">Tarjeta</h2>
+
+    <label>Imagen</label>
+    <div class="pic-row">
+      <div class="pic" id="f-preview" aria-hidden="true"><span>Sin imagen</span></div>
+      <div>
+        <label class="btn ghost file" for="f-imagen" id="f-imagen-label">Elegir imagen</label>
+        <input id="f-imagen" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+        <p class="muted small" id="f-imagen-msg">JPG, PNG o WebP. Funcionan muy bien las capturas largas de toda la página: se deslizan solas al pasar el mouse.</p>
+      </div>
+    </div>
+
+    <label for="f-titulo">Título <span class="muted small">(nombre del cliente; lo leen los buscadores y lectores de pantalla)</span></label>
+    <input id="f-titulo" type="text" maxlength="80" required>
+
+    <label for="f-descripcion">Texto debajo de la imagen <span class="muted small">(opcional)</span></label>
+    <input id="f-descripcion" type="text" maxlength="140">
+
+    <label for="f-link">Link al sitio <span class="muted small">(opcional; sin link la tarjeta no se puede tocar)</span></label>
+    <input id="f-link" type="text" inputmode="url" maxlength="300" placeholder="https://misitio.com" autocapitalize="none" spellcheck="false">
+
+    <label class="check"><input id="f-larga" type="checkbox"> Imagen larga: se desliza de arriba a abajo al pasar el mouse</label>
+
+    <p class="msg" id="editor-msg" role="alert"></p>
+    <div class="dlg-actions">
+      <button class="btn ghost" id="editor-cancelar" type="button">Cancelar</button>
+      <button class="btn" id="editor-guardar" type="submit">Guardar</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- CONFIRMAR BORRADO -->
+<dialog id="confirm" class="dlg small-dlg" aria-labelledby="confirm-msg">
+  <p id="confirm-msg"></p>
+  <div class="dlg-actions">
+    <button class="btn ghost" id="confirm-no" type="button">Cancelar</button>
+    <button class="btn danger" id="confirm-si" type="button">Eliminar</button>
+  </div>
+</dialog>
 
 <script src="admin.js" defer></script>
 </body>

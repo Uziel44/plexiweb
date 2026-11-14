@@ -88,3 +88,68 @@ input[type=text], input[type=password] {
   .two { grid-template-columns: 1fr; gap: 0; }
   .brand span { display: none; }
 }
+
+/* ---------- Pestañas ---------- */
+.tabs { display: flex; gap: 6px; border-bottom: 1px solid var(--line); margin-bottom: 22px; }
+.tab { font: inherit; font-size: .95rem; font-weight: 600; background: none; border: 0; border-bottom: 2px solid transparent; padding: 10px 16px; cursor: pointer; color: var(--muted); margin-bottom: -1px; }
+.tab:hover { color: var(--ink); }
+.tab[aria-pressed="true"] { color: var(--accent); border-color: var(--accent); }
+
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.msg.info { color: var(--accent); background: #e8effa; border-radius: 8px; padding: 10px 12px; }
+.btn.danger { background: var(--signal); border-color: var(--signal); }
+.btn.danger:hover { background: #8f1f19; border-color: #8f1f19; }
+.btn.danger-text { color: var(--signal); }
+.btn.danger-text:hover { border-color: var(--signal); }
+.btn.file { display: inline-flex; align-items: center; margin: 0; }
+.btn.icon { padding: 6px 0; width: 38px; font-size: 1.05rem; }
+textarea, input[type=text] { font: inherit; }
+.check { display: flex; align-items: center; gap: 8px; font-weight: 400; margin-top: 16px; font-size: .92rem; }
+.check input { width: 18px; height: 18px; accent-color: var(--accent); flex: none; }
+
+/* ---------- Lista de tarjetas ---------- */
+.card-list { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 10px; }
+.card {
+  display: grid; grid-template-columns: 26px 18px 96px 1fr auto; gap: 12px; align-items: center;
+  background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px 10px 8px;
+  position: relative; cursor: grab;
+}
+.card.dragging { opacity: .4; }
+.card.drop-before::before, .card.drop-after::after {
+  content: ''; position: absolute; left: 0; right: 0; height: 3px; background: var(--accent); border-radius: 3px;
+}
+.card.drop-before::before { top: -7px; }
+.card.drop-after::after { bottom: -7px; }
+.num { font-size: .75rem; font-weight: 700; color: var(--muted); text-align: center; font-variant-numeric: tabular-nums; }
+.grip { color: #9aa1ad; font-size: 1.1rem; line-height: 1; text-align: center; user-select: none; }
+.thumb { width: 96px; height: 64px; border-radius: 8px; overflow: hidden; background: var(--bg); }
+.thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+.card-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.card-text b { font-weight: 700; overflow-wrap: anywhere; }
+.card-text span { overflow-wrap: anywhere; }
+.card-text .link { color: var(--accent); }
+.tag { align-self: flex-start; font-size: .68rem; font-weight: 600; border: 1px solid var(--line); border-radius: 99px; padding: 1px 8px; color: var(--muted); margin-top: 2px; }
+.card-actions { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.card-actions .btn { min-height: 36px; padding: 6px 12px; font-size: .82rem; }
+.card-actions .btn.icon { width: 36px; padding: 6px 0; }
+.card-actions .btn:disabled { opacity: .35; }
+
+/* ---------- Diálogos ---------- */
+.dlg { width: min(620px, calc(100vw - 20px)); max-height: calc(100vh - 20px); border: 1px solid var(--line); border-radius: 14px; padding: 0; background: var(--white); color: var(--ink); }
+.dlg::backdrop { background: rgb(15 25 45 / .55); }
+.dlg form, .small-dlg { padding: 22px; }
+.dlg h2 { margin-bottom: 4px; }
+.small-dlg { width: min(400px, calc(100vw - 20px)); }
+.dlg-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 14px; }
+.pic-row { display: flex; gap: 14px; align-items: flex-start; }
+.pic { flex: none; width: 120px; height: 150px; border-radius: 10px; overflow: hidden; background: var(--bg); border: 1px dashed #b9bfc9; display: grid; place-items: center; font-size: .75rem; color: var(--muted); }
+.pic img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+.pic-row .muted { margin: 8px 0 0; }
+
+@media (max-width: 640px) {
+  .card { grid-template-columns: 22px 80px 1fr; row-gap: 8px; }
+  .card .grip { display: none; }
+  .thumb { width: 80px; height: 56px; }
+  .card-actions { grid-column: 1 / -1; justify-content: flex-start; }
+  .pic-row { flex-direction: column; }
+}

@@ -10,7 +10,7 @@ css/style.css      todos los estilos
 js/script.js       toda la lógica (carrusel, menú, cookie banner)
 metricas.js        manda eventos anónimos (visita, clic a WhatsApp, clic a un proyecto) a /api/metrics
 admin.html/.js/.css  panel de métricas (/admin.html): login + resumen de 30 días
-server/            backend Node/Express: /api/login, /api/metrics, /api/admin/metrics (tests: `cd server && npm test`)
+server/            backend Node/Express: login, métricas y tarjetas del portfolio (/api/*, /uploads/*; tests: `cd server && npm test`)
 Dockerfile         imagen del backend (la web estática NO va en la imagen)
 assets/            imágenes (logo, portfolio, fondos)
 ```
@@ -39,7 +39,11 @@ Publicado en `https://web.plexi.com.ar/`, en el droplet de DigitalOcean (`167.99
 
 ## Agregar un proyecto al portfolio
 
-En `index.html`, dentro de `#portfolio-track`, agregar otra tarjeta `<a class="portfolio-card">` igual a las existentes, en cualquier posición. El carrusel (flechas + dots) se recalcula solo desde `js/script.js` — no hace falta tocar CSS ni JS.
+Desde el panel: `https://web.plexi.com.ar/admin.html` → solapa **Tarjetas**. Ahí se crean tarjetas nuevas (se sube la imagen, se escribe título, texto y link), se edita cada una y se cambian de lugar arrastrándolas o con las flechas ↑ ↓. Los cambios se ven en la web al recargarla.
+
+- La web dibuja las tarjetas del panel en las 4 columnas, de a una por columna en el orden de la lista (en tablet y mobile `initPortfolioColumns` las acomoda en 2 columnas, como siempre).
+- Mientras nadie guarde un cambio en el panel (`GET /api/cards` responde `custom:false`), o si el backend no responde, la web muestra el HTML de `index.html` (`#portfolio-track`/`.portfolio-col`). Ese HTML es también la **semilla** del panel (`server/lib/seed-cards.json`, generada desde él): una vez que el panel guarda algo, editar el HTML ya no cambia lo que se ve.
+- Las imágenes subidas viven en el volumen `plexiweb_data` del droplet (`uploads/`, servidas por `/uploads/*`); las de `assets/home/` son del repo.
 
 ## Notas
 

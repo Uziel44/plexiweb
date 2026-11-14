@@ -1,0 +1,124 @@
+{
+  "cards": [
+    {
+      "id": "c_seed01",
+      "title": "Electrotest",
+      "description": "Mantenimiento eléctrico alta tensión",
+      "link": "https://electrotest.com.ar",
+      "image": "assets/home/elec-full.jpg",
+      "tall": true
+    },
+    {
+      "id": "c_seed02",
+      "title": "Ana Maria Flowers",
+      "description": "Florería y arreglos florales",
+      "link": "https://anamariaflowers.com/",
+      "image": "assets/home/anamaria-full.jpg",
+      "tall": true
+    },
+    {
+      "id": "c_seed03",
+      "title": "M I Y E N dj",
+      "description": "Entretenimiento y shows",
+      "link": "https://miyendj.plexiweb.app",
+      "image": "assets/home/miy-full.jpg",
+      "tall": true
+    },
+    {
+      "id": "c_seed04",
+      "title": "Marco Antonio Séptimo",
+      "description": "Perfil profesional de escritor",
+      "link": "https://septimo.raabta7.org",
+      "image": "assets/home/marcoantonioseptimo-full.jpg",
+      "tall": true
+    },
+    {
+      "id": "c_seed05",
+      "title": "Ilha Grande",
+      "description": "Ecoturismo aventura",
+      "link": "https://ilhagrandeaventura.plexiweb.app/",
+      "image": "assets/home/ilha-full.jpg",
+      "tall": true
+    },
+    {
+      "id": "c_seed06",
+      "title": "Club Andino VCP",
+      "description": "Club de escalada y trekking",
+      "link": "https://clubandinovcp.plexiweb.app/",
+      "image": "assets/home/clubvcp-full.jpg",
+      "tall": true
+    },
+    {
+      "id": "c_seed07",
+      "title": "Verge Agua Bebés",
+      "description": "Artículos para bebés",
+      "link": "https://verdeaguabebes.plexi.com.ar",
+      "image": "assets/home/vergeaguabebes-full.jpg",
+      "tall": true
+    },
+    {
+      "id": "c_seed08",
+      "title": "Verax Due Diligence",
+      "description": "Investigación y due diligence",
+      "link": "https://verax-duediligence.pages.dev/",
+      "image": "assets/home/verax-full.jpg",
+      "tall": true
+    },
+    {
+      "id": "c_seed09",
+      "title": "Rincón de Nina",
+      "description": "Alojamiento en Tanti, Córdoba",
+      "link": "https://rincondenina.plexi.com.ar/",
+      "image": "assets/home/rincondenina-full.jpg",
+      "tall": true
+    },
+    {
+      "id": "c_seed10",
+      "title": "Plexi Gestión",
+      "description": "Asesoramiento de administración",
+      "link": "https://gestion.plexi.com.ar",
+      "image": "assets/home/gest-full.jpg",
+      "tall": true
+    },
+    {
+      "id": "c_seed11",
+      "title": "Datovivo",
+      "description": "Blog de análisis estadísticos",
+      "link": "https://uziel44.github.io/datovivo",
+      "image": "assets/home/dato-full.jpg",
+      "tall": true
+    },
+    {
+      "id": "c_seed12",
+      "title": "Betty Tejidos",
+      "description": "Tejidos artesanales en telar",
+      "link": "https://uziel44.github.io/betty/",
+      "image": "assets/home/betty-full.jpg",
+      "tall": true
+    },
+    {
+      "id": "c_seed13",
+      "title": "Venta Usados Hernán",
+      "description": "Venta de usados",
+      "link": "https://usados.plexi.com.ar",
+      "image": "assets/home/ventausadoshernan-full.jpg",
+      "tall": true
+    },
+    {
+      "id": "c_seed14",
+      "title": "Herrería Olmedo",
+      "description": "Herrería y trabajos en metal",
+      "link": "https://herreriaolmedo.plexi.com.ar",
+      "image": "assets/home/herreriaolmedo-full.jpg",
+      "tall": true
+    },
+    {
+      "id": "c_seed15",
+      "title": "Veterinaria Dr. Peirone",
+      "description": "Veterinaria en General Deheza",
+      "link": "https://uziel44.github.io/vetpeirone/",
+      "image": "assets/home/vetpeirone.jpg",
+      "tall": false
+    }
+  ]
+}
