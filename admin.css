@@ -73,10 +73,15 @@ input[type=text], input[type=password] {
 .stat span { font-size: .78rem; color: var(--muted); }
 .block { background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin-bottom: 18px; }
 .block h3 { font-weight: 700; font-size: 1rem; margin: 0 0 12px; }
-.days { display: flex; align-items: flex-end; gap: 6px; height: 130px; }
+.days { display: flex; align-items: flex-end; gap: 6px; height: 190px; }
 .day { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; min-width: 0; }
 .day i { display: block; width: 100%; background: var(--accent); border-radius: 3px 3px 0 0; min-height: 2px; }
-.day small { font-size: .62rem; color: var(--muted); margin-top: 4px; }
+.day .val { font-size: .85rem; font-weight: 700; font-variant-numeric: tabular-nums; margin-bottom: 3px; color: var(--ink); }
+.day .val.zero { color: #9aa1ad; font-weight: 500; }
+.day small { font-size: .62rem; color: var(--muted); }
+.day .date { margin-top: 4px; font-weight: 600; }
+.day .ppl { white-space: nowrap; }
+@media (max-width: 640px) { .days { gap: 3px; } .day .val { font-size: .72rem; } .day small { font-size: .55rem; } }
 .rows { width: 100%; border-collapse: collapse; font-size: .88rem; }
 .rows td, .rows th { text-align: left; padding: 7px 4px; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
 .rows th { font-size: .72rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); font-weight: 600; }

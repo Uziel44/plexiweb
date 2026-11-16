@@ -178,16 +178,20 @@
     clicks.append(stat(d.whatsapp, 'clics a WhatsApp'), stat(d.portfolioClicks, 'clics a proyectos del portfolio'));
     body.append(clicks);
 
+    // Cada día: visitas arriba de la barra, fecha (día/mes) y personas distintas debajo
     const max = Math.max(1, ...d.daily.map((x) => x.visits));
     const days = el('div', 'days');
     d.daily.forEach((x) => {
       const c = el('div', 'day');
-      c.title = `${x.day}: ${x.visits} visitas, ${x.unique} personas`;
-      const bar = el('i'); bar.style.height = `${Math.round((x.visits / max) * 100)}%`;
-      c.append(bar, el('small', undefined, x.day.slice(8)));
+      c.title = `${x.day}: ${x.visits} visitas, ${x.unique} personas distintas`;
+      const bar = el('i'); bar.style.height = `${Math.max(2, Math.round((x.visits / max) * 100))}px`;
+      const val = el('b', x.visits ? 'val' : 'val zero', String(x.visits));
+      c.append(val, bar, el('small', 'date', `${x.day.slice(8)}/${x.day.slice(5, 7)}`), el('small', 'ppl', `${x.unique} pers.`));
       days.append(c);
     });
-    body.append(block('Visitas por día (últimos 14 días)', days));
+    const total = d.daily.reduce((sum, x) => sum + x.visits, 0);
+    body.append(block('Visitas por día (últimos 14 días)', days,
+      el('p', 'foot', `Número grande = visitas del día; abajo, personas distintas. Total de los 14 días: ${total} visitas.`)));
 
     const f = d.funnel;
     body.append(block('Qué hace la gente',
