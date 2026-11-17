@@ -106,6 +106,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- Bloque azul a todo el ancho: hero + carrusel de webs -->
     <div class="showcase">
 
+    <!-- Video de fondo (reemplaza el azul plano). Muted + playsinline para que
+         autoplay funcione en mobile; el poster se ve mientras carga. -->
+    <video class="showcase-video" autoplay muted loop playsinline preload="auto" poster="assets/bg/blue-total-poster.jpg" aria-hidden="true" tabindex="-1">
+      <source src="assets/bg/blue-total.mp4" type="video/mp4">
+    </video>
+
     <section class="hero" data-reveal-group="up">
       <h1 class="hero-title" data-reveal>Tu página <em class="accent-serif">lista para vender</em></h1>
       <p class="hero-subtitle" data-reveal>Con una estrategia clara: atraer, generar confianza y cerrar la venta.</p>

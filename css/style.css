@@ -8,6 +8,8 @@ html { scroll-behavior: smooth; }
      del sistema de color de este proyecto. */
   --accent: #0042a2;
   --accent-soft: rgb(0 66 162 / 0.1);
+  /* fotograma del video "Blue total": se usa como relleno donde antes había azul plano */
+  --blue-video-still: url('../assets/bg/blue-total-poster.jpg');
   /* segundo acento, mismo dorado que plexipedidos (#d4a24c) */
   --gold: oklch(0.74 0.12 79);
   --bg: #fff;
@@ -112,7 +114,8 @@ section[id] { scroll-margin-top: 80px; }
 .btn:hover { transform: translateY(-1px); }
 
 .btn-primary {
-  background: var(--accent);
+  /* mismo azul del video de fondo, con el velo para que el texto blanco se lea */
+  background: linear-gradient(rgb(0 20 80 / 0.28), rgb(0 20 80 / 0.28)), var(--accent) var(--blue-video-still) center / cover;
   color: #fff;
 }
 .btn-primary:hover { box-shadow: 0 8px 20px rgb(0 66 162 / 0.35); }
@@ -194,8 +197,33 @@ section[id] { scroll-margin-top: 80px; }
 
 /* ---------- Showcase: hero + carrusel, azul con texto blanco ---------- */
 .showcase {
-  background: var(--accent);
+  position: relative;
+  isolation: isolate;
+  /* fallback si el video no carga o hay reduced-motion: el mismo azul del video */
+  background: var(--accent) var(--blue-video-still) center / cover;
   color: #fff;
+}
+/* Video "Blue total" en lugar del azul plano */
+.showcase-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  pointer-events: none;
+}
+/* Velo oscuro suave: las zonas cian del video bajan el contraste del texto blanco */
+.showcase::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: rgb(0 20 80 / 0.28);
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .showcase-video { display: none; }
 }
 .showcase :focus-visible { outline-color: #fff; }
 
@@ -447,14 +475,18 @@ section[id] { scroll-margin-top: 80px; }
 }
 .price-card:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(0, 0, 0, 0.08); }
 
-.price-card-featured { border: 2px solid var(--accent); position: relative; }
+.price-card-featured {
+  border: 2px solid transparent;
+  background: linear-gradient(#fff, #fff) padding-box, var(--accent) var(--blue-video-still) center / cover border-box;
+  position: relative;
+}
 
 .price-badge {
   position: absolute;
   top: -12px;
   left: 50%;
   transform: translateX(-50%);
-  background: var(--accent);
+  background: linear-gradient(rgb(0 20 80 / 0.28), rgb(0 20 80 / 0.28)), var(--accent) var(--blue-video-still) center / cover;
   color: #fff;
   font-size: 12px;
   font-weight: 600;
